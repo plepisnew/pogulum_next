@@ -1,0 +1,45 @@
+@baseUrl = https://api.twitch.tv/helix
+@clipsPath = clips
+@gamesPath = games
+@usersPath = users
+
+### Get clips by game
+# @prompt gameName Name of the game whose clips should be fetched
+# @name queryGame
+GET {{baseUrl}}/{{gamesPath}}?name={{gameName}}
+Client-Id: {{$dotenv CLIENT_ID}}
+Authorization: Bearer {{$dotenv ACCESS_TOKEN}}
+
+### Get clips with previously fetched game
+# @name queryClips
+GET {{baseUrl}}/{{clipsPath}}?game_id={{queryGame.response.body.data[0].id}}
+Client-Id: {{$dotenv CLIENT_ID}}
+Authorization: Bearer {{$dotenv ACCESS_TOKEN}}
+
+### Get clips by game next page 
+# @name queryClipsCursor
+GET {{baseUrl}}/{{clipsPath}}?game_id={{queryGame.response.body.data[0].id}}&after={{queryClips.response.body.pagination.cursor}}
+Client-Id: {{$dotenv CLIENT_ID}}
+Authorization: Bearer {{$dotenv ACCESS_TOKEN}}
+
+### Get clips with previously fetched game
+# @prompt pageSize Number of items to get
+# @name queryClipsLimit
+GET {{baseUrl}}/{{clipsPath}}?game_id={{queryGame.response.body.data[0].id}}&first={{pageSize}}
+Client-Id: {{$dotenv CLIENT_ID}}
+Authorization: Bearer {{$dotenv ACCESS_TOKEN}}
+
+
+
+### Get clips by user
+# @prompt userLogin Login of the user whose clips should be fetched
+# @name queryUser
+GET {{baseUrl}}/{{usersPath}}?login={{userLogin}}
+Client-Id: {{$dotenv CLIENT_ID}}
+Authorization: Bearer {{$dotenv ACCESS_TOKEN}}
+
+### Get clips with previously fetched game
+# @name queryClips
+GET {{baseUrl}}/{{clipsPath}}?broadcaster_id={{queryUser.response.body.data[0].id}}
+Client-Id: {{$dotenv CLIENT_ID}}
+Authorization: Bearer {{$dotenv ACCESS_TOKEN}}
