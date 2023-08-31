@@ -1,6 +1,6 @@
 "use client";
+
 import "@/app/index.css";
-import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import { PropsWithChildren } from "react";
 import { trpc } from "@/utils/trpc";
@@ -9,14 +9,13 @@ import { Footer } from "@/components/adhoc/Footer";
 
 const font = Manrope({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "Pogulum",
-  description: "Pogulum: Twitch Clip Scraper",
-};
-
 const RootLayout: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <html lang="en">
+      <head>
+        <title>Pogulum</title>
+        <meta name="description" content="Pogulum: Twitch Clip Scraper" />
+      </head>
       <body className={font.className}>
         <Header />
         <HeaderLayout>{children}</HeaderLayout>

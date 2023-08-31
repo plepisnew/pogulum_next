@@ -8,7 +8,8 @@ const ClipsPage: React.FC = () => {
       <div>Clips page</div>
       <div className="flex flex-col gap-4 w-[300px] bg-twitch p-4">
         <TextInput placeholder="Normal" label="Normal" />
-        <TextInput placeholder="Focused" label="Focused" />
+        <TextInput placeholder="Hovered" label="Hovered" forceControls={{ hover: true }} />
+        <TextInput placeholder="Focused" label="Focused" forceControls={{ focus: true }} />
         <TextInput placeholder="Disabled" label="Disabled" disabled />
         <TextInput
           placeholder="Helper Text"

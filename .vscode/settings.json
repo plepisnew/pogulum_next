@@ -1,1 +1,25 @@
-{}
+{
+   "tailwindCSS.experimental.classRegex": [
+      [
+         "Classes \\=([^;]*);",
+         "'([^']*)'"
+      ],
+      [
+         "Classes \\=([^;]*);",
+         "\"([^\"]*)\""
+      ],
+      [
+         "Classes \\=([^;]*);",
+         "\\`([^\\`]*)\\`"
+      ]
+   ],
+   "editor.formatOnSave": true,
+   "editor.tabSize": 2,
+   "editor.wordWrap": "on",
+   "[json]": {
+      "editor.defaultFormatter": "vscode.json-language-features"
+   },
+   "[typescriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+   }
+}
