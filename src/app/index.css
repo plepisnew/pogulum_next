@@ -5,3 +5,11 @@
 html, body, #root {
   height: 100%;
 }
+
+a:focus-visible {
+  @apply outline;
+  @apply outline-1;
+  @apply outline-white;
+  @apply outline-offset-2;
+  @apply transition-colors;
+}
