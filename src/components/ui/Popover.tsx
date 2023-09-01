@@ -1,3 +1,4 @@
+import { useClickAway } from "@/hooks/useClickAway";
 import { cn } from "@/utils/cn";
 import {
   DetailedHTMLProps,
@@ -7,6 +8,7 @@ import {
   ReactNode,
   forwardRef,
   useMemo,
+  useRef,
   useState,
 } from "react";
 
@@ -16,6 +18,7 @@ export type PopoverProps = {
   offset?: string;
   render: ReactNode;
   clickable?: boolean;
+  closeOnClickAway?: boolean;
 } & DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
 
 const ReflessPopover: ForwardRefRenderFunction<HTMLDivElement, PopoverProps> = (
@@ -42,20 +45,28 @@ const ReflessPopover: ForwardRefRenderFunction<HTMLDivElement, PopoverProps> = (
     [origin, align, offset, clickable, open]
   );
 
+  const popoverRef = useRef<HTMLDivElement>(null);
+
+  useClickAway({ refs: [popoverRef], handler: () => setOpen(false) });
+
   return (
-    <div className={cn("popover-container", "relative")}>
-      <div className={cn("popover-trigger", "peer")} onClick={handleToggleOpen}>
+    <div className={cn("popover-container", "relative inline")} ref={ref}>
+      <div
+        className={cn("popover-trigger", "peer inline")}
+        onClick={handleToggleOpen}
+      >
         {children}
       </div>
       <div
-        ref={ref}
+        ref={popoverRef}
         className={cn(
           "popover",
           "transition-all absolute opacity-0 invisible",
           clickable
             ? `${open && "opacity-100 visible"}`
             : "peer-hover:opacity-100 peer-hover:visible",
-          locationClasses
+          locationClasses,
+          className
         )}
         style={{ ...locationStyles, ...style }}
         {...divProps}
@@ -64,6 +75,45 @@ const ReflessPopover: ForwardRefRenderFunction<HTMLDivElement, PopoverProps> = (
       </div>
     </div>
   );
+};
+
+type Origin = NonNullable<PopoverProps["origin"]>;
+
+type Align = NonNullable<PopoverProps["align"]>;
+
+const originStyles: Record<
+  Origin,
+  (offset: PopoverProps["offset"]) => HTMLAttributes<HTMLElement>["style"]
+> = {
+  top: (offset) => ({ bottom: `calc(100% + ${offset})` }),
+  right: (offset) => ({ left: `calc(100% + ${offset})` }),
+  bottom: (offset) => ({ top: `calc(100% + ${offset})` }),
+  left: (offset) => ({ right: `calc(100% + ${offset})` }),
+};
+
+const alignClasses: Record<Align, (origin: Origin) => string> = {
+  top: (_) => "top-0",
+  right: (_) => "right-0",
+  bottom: (_) => "bottom-0",
+  left: (_) => "left-0",
+  center: (origin) =>
+    ["top", "bottom"].includes(origin)
+      ? "left-1/2 -translate-x-1/2"
+      : "top-1/2 -translate-y-1/2",
+};
+
+const clickableTransitionClasses: Record<Origin, (open: boolean) => string> = {
+  top: (open) => (open ? "translate-y-0" : "-translate-y-1"),
+  right: (open) => (open ? "translate-x-0" : "translate-x-1"),
+  bottom: (open) => (open ? "translate-y-0" : "translate-y-1"),
+  left: (open) => (open ? "translate-x-0" : "-translate-x-1"),
+};
+
+const normalTransitionClasses: Record<Origin, string> = {
+  top: "-translate-y-1 peer-hover:translate-y-0",
+  right: "translate-x-1 peer-hover:translate-x-0",
+  bottom: "translate-y-1 peer-hover:translate-y-0",
+  left: "-translate-x-1 peer-hover:translate-x-0",
 };
 
 const getLocationProps = ({
@@ -78,61 +128,13 @@ const getLocationProps = ({
   locationStyles: HTMLAttributes<HTMLElement>["style"];
   locationClasses: string;
 } => {
-  const originStyles: HTMLAttributes<HTMLElement>["style"] =
-    origin === "top"
-      ? { bottom: `calc(100% + ${offset})` }
-      : origin === "right"
-      ? { left: `calc(100% + ${offset})` }
-      : origin === "bottom"
-      ? { top: `calc(100% + ${offset})` }
-      : origin === "left"
-      ? { right: `calc(100% + ${offset})` }
-      : { animation: ":gt; " };
-
-  const alignClasses =
-    align === "top"
-      ? "top-0"
-      : align === "right"
-      ? "right-0"
-      : align === "bottom"
-      ? "bottom-0"
-      : align === "left"
-      ? "left-0"
-      : origin === "top" || origin === "bottom"
-      ? "left-1/2 -translate-x-1/2"
-      : origin === "left" || origin === "right"
-      ? "top-1/2 -translate-y-1/2"
-      : ":gt;";
-
-  const clickableTransitionClasses =
-    origin === "top"
-      ? `-translate-y-1 ${open && "translate-y-0"}`
-      : origin === "right"
-      ? `translate-x-1 ${open && "translate-x-0"}`
-      : origin === "bottom"
-      ? `translate-y-1 ${open && "translate-y-0"}`
-      : origin === "left"
-      ? `-translate-x-1 ${open && "translate-x-0"}`
-      : ":&gt;";
-
-  const normalTransitionClasses =
-    origin === "top"
-      ? "-translate-y-1 peer-hover:translate-y-0"
-      : origin === "right"
-      ? "translate-x-1 peer-hover:translate-x-0"
-      : origin === "bottom"
-      ? "translate-y-1 peer-hover:translate-y-0"
-      : origin === "left"
-      ? "-translate-x-1 peer-hover:translate-x-0"
-      : ":&gt;";
-
   const transitionClasses = clickable
-    ? clickableTransitionClasses
-    : normalTransitionClasses;
+    ? clickableTransitionClasses[origin](open)
+    : normalTransitionClasses[origin];
 
   return {
-    locationClasses: `${transitionClasses} ${alignClasses}`,
-    locationStyles: originStyles,
+    locationClasses: `${transitionClasses} ${alignClasses[align](origin)}`,
+    locationStyles: originStyles[origin](offset),
   };
 };
 

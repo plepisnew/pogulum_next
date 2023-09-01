@@ -1,4 +1,4 @@
-import { PageTitle } from "@/utils/PageTitle";
+import { PageTitle } from "@/components/adhoc/PageTitle";
 
 const HomePage: React.FC = () => {
   return (

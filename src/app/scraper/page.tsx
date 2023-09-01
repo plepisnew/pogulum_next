@@ -1,7 +1,7 @@
 import { Platform } from "@/components/ui/Platform";
 import { TextInput } from "@/components/ui/TextInput";
 import { cn } from "@/utils/cn";
-import { PageTitle } from "@/utils/PageTitle";
+import { PageTitle } from "@/components/adhoc/PageTitle";
 
 const ScraperPage: React.FC = () => {
   const VerticalDivider = (
@@ -10,7 +10,10 @@ const ScraperPage: React.FC = () => {
 
   return (
     <div className={cn("flex flex-col gap-4 h-full")}>
-      <PageTitle highlight="scraper" />
+      <PageTitle
+        highlight="scraper"
+        helperText="This is where you can find clips based on different criteria and edit them into a single downloadable video"
+      />
       <p className="text-zinc-700">
         Here you can find Twitch games, users and clips. Clips can be combined
         into a single video and downloaded.

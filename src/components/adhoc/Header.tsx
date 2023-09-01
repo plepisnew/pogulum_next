@@ -60,8 +60,7 @@ export const Header: React.FC = () => {
   return (
     <header
       className={cn(
-        "fixed left-0 right-0 top-0 flex items-center",
-        "h-[70px]",
+        "fixed left-0 right-0 top-0 flex items-center z-10",
         "from-twitch to-twitch-dark bg-gradient-to-br text-white shadow-md"
       )}
       style={{ height: HeaderConstants.HEADER_HEIGHT }}
@@ -110,7 +109,7 @@ export const Header: React.FC = () => {
 
 export const HeaderLayout: React.FC<PropsWithChildren> = ({ children }) => (
   <main
-    className="bg-indigo-100 h-full"
+    className="bg-twitch-100 h-full"
     style={{ paddingTop: HeaderConstants.HEADER_HEIGHT }}
   >
     <div className="container mx-auto py-6 h-full">{children}</div>
