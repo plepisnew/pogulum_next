@@ -1,9 +1,17 @@
+"use client";
+
 import { TextInput } from "@/components/ui/TextInput";
 import { PageTitle } from "@/components/adhoc/PageTitle";
 import { FaDollarSign, FaUser, FaVideo } from "react-icons/fa";
 import { Button } from "@/components/ui/Button";
+import { useInput } from "@/hooks/useInput";
 
 const ClipsPage: React.FC = () => {
+  const { InputField: NormalInputField } = useInput({
+    placeholder: "Normal",
+    label: "Normal",
+  });
+
   return (
     <div className="flex flex-col gap-4">
       <PageTitle
@@ -12,7 +20,7 @@ const ClipsPage: React.FC = () => {
       />
       <div className="flex gap-4">
         <div className="flex flex-col gap-4 w-[300px] bg-twitch p-4 rounded-lg">
-          <TextInput placeholder="Normal" label="Normal" />
+          {NormalInputField}
           <TextInput placeholder="Disabled" label="Disabled" disabled />
           <TextInput
             placeholder="4192385912"
@@ -55,9 +63,6 @@ const ClipsPage: React.FC = () => {
           <Button variant="tonal" inverse>
             Inverse Tonal
           </Button>
-          <Button variant="link" inverse href="/clips">
-            Inverse Link
-          </Button>
           <Button variant="text" inverse>
             Inverse Text
           </Button>
@@ -65,9 +70,6 @@ const ClipsPage: React.FC = () => {
             <Button variant="primary">Primary</Button>
             <Button variant="secondary">Secondary</Button>
             <Button variant="tonal">Tonal</Button>
-            <Button variant="link" href="/clips">
-              Link
-            </Button>
             <Button variant="text">Text</Button>
           </div>
         </div>
@@ -81,9 +83,7 @@ const ClipsPage: React.FC = () => {
           <Button disabled variant="tonal" inverse>
             Inverse Tonal
           </Button>
-          <Button disabled variant="link" inverse href="/clips">
-            Inverse Link
-          </Button>
+
           <Button disabled variant="text" inverse>
             Inverse Text
           </Button>
@@ -96,9 +96,6 @@ const ClipsPage: React.FC = () => {
             </Button>
             <Button disabled variant="tonal">
               Tonal
-            </Button>
-            <Button disabled variant="link" href="/clips">
-              Link
             </Button>
             <Button disabled variant="text">
               Text

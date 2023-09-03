@@ -8,6 +8,7 @@ export const TwitchEndpoints = {
   USERS: `${BASE_URL}/users`,
   GAMES: `${BASE_URL}/games`,
   CLIPS: `${BASE_URL}/clips`,
+  TOP_GAMES: `${BASE_URL}/games/top`,
 };
 
 export const TwitchConstants = {
@@ -214,3 +215,16 @@ export const twitchAxios = async <TEntity extends TwitchApiEntity>({
 
   return response.data;
 };
+
+export const concreteDimensions = ({
+  url,
+  width,
+  height,
+}: {
+  url: string;
+  width: number;
+  height: number;
+}) =>
+  url
+    .replaceAll("{width}", width.toString())
+    .replaceAll("{height}", height.toString());

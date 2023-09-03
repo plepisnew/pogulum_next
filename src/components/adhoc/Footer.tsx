@@ -31,7 +31,7 @@ export const Footer: React.FC = () => {
   return (
     <footer
       className={cn(
-        "from-twitch to-twitch-dark bg-gradient-to-br text-white text-lg"
+        "from-twitch to-twitch-dark bg-gradient-to-br text-white text-lg z-50"
       )}
     >
       <div className="container mx-auto py-8 flex justify-between items-center">
@@ -52,7 +52,7 @@ export const Footer: React.FC = () => {
                 <a
                   href={path}
                   target="_blank"
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 px-2 rounded-md"
                 >
                   {label} <Icon />
                 </a>

@@ -6,6 +6,7 @@ import {
   DetailedHTMLProps,
   FocusEventHandler,
   ForwardRefRenderFunction,
+  HTMLAttributes,
   InputHTMLAttributes,
   KeyboardEventHandler,
   ReactNode,
@@ -14,6 +15,8 @@ import {
   useState,
 } from "react";
 import { Popover, PopoverProps } from "./Popover";
+
+// TODO variant with button
 
 export type TextInputProps = {
   label?: string;
@@ -54,6 +57,8 @@ const ReflessTextInput: ForwardRefRenderFunction<
   ref
 ) => {
   const [focused, setFocused] = useState(false);
+
+  const hasValue = props.value?.toString().length ?? 0 !== 0;
 
   const handleBlur: FocusEventHandler<HTMLInputElement> = () => {
     setFocused(false);
@@ -100,10 +105,11 @@ const ReflessTextInput: ForwardRefRenderFunction<
         className={cn(
           "input-container",
           "group flex items-center py-2",
-          "border border-zinc-400 rounded-md shadow-md",
-          "hover:border-zinc-200 transition-all",
-          focused &&
-            "outline-1 outline outline-white outline-offset-2 border-white",
+          "border-2 rounded-md transition-all",
+          focused && "outline-1 outline outline-white outline-offset-2",
+          hasValue || focused
+            ? "border-white"
+            : "border-zinc-400 hover:border-zinc-200 ",
           error &&
             "border-red-800 outline-red-800 hover:border-red-600  hover:outline-red-600",
           containerClassName
@@ -113,7 +119,7 @@ const ReflessTextInput: ForwardRefRenderFunction<
           <div
             className={cn(
               "input-start",
-              focused
+              focused || hasValue
                 ? "text-white"
                 : "text-zinc-400 group-hover:text-zinc-200 ",
               "ml-2 transition-colors",
@@ -129,8 +135,7 @@ const ReflessTextInput: ForwardRefRenderFunction<
           className={cn(
             "input",
             "bg-transparent outline-none grow px-2",
-            !disabled && "hover:border-white",
-            "disabled:cursor-no-drop",
+            "disabled:cursor-not-allowed disabled:opacity-80",
             inputClassName
           )}
           size={1}
@@ -143,7 +148,7 @@ const ReflessTextInput: ForwardRefRenderFunction<
           <div
             className={cn(
               "input-end",
-              focused
+              focused || hasValue
                 ? "text-white"
                 : "text-zinc-400 group-hover:text-zinc-200 ",
               "mr-2 transition-colors",

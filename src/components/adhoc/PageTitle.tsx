@@ -34,8 +34,9 @@ export const PageTitle: React.FC<PageTitleProps> = ({
       <h1 className="font-light text-4xl text-zinc-950">{RenderedTitle}</h1>
       {helperText && (
         <Popover
-          render={PopoverContent}
+          closeOnClickAway
           clickable
+          render={PopoverContent}
           origin="bottom"
           align="center"
         >

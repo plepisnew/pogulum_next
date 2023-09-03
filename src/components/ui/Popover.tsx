@@ -6,6 +6,7 @@ import {
   HTMLAttributes,
   MouseEventHandler,
   ReactNode,
+  RefObject,
   forwardRef,
   useMemo,
   useRef,
@@ -19,6 +20,8 @@ export type PopoverProps = {
   render: ReactNode;
   clickable?: boolean;
   closeOnClickAway?: boolean;
+  closeOnClickAwayRefs?: RefObject<HTMLElement>[];
+  open?: boolean;
 } & DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
 
 const ReflessPopover: ForwardRefRenderFunction<HTMLDivElement, PopoverProps> = (
@@ -30,6 +33,9 @@ const ReflessPopover: ForwardRefRenderFunction<HTMLDivElement, PopoverProps> = (
     align = "center",
     offset = "8px",
     clickable = false,
+    open: forceOpen,
+    closeOnClickAway,
+    closeOnClickAwayRefs,
     style,
     ...divProps
   },
@@ -40,30 +46,35 @@ const ReflessPopover: ForwardRefRenderFunction<HTMLDivElement, PopoverProps> = (
   const handleToggleOpen: MouseEventHandler<HTMLDivElement> = () =>
     setOpen(!open);
 
+  const virtualOpen = forceOpen || open;
+
   const { locationClasses, locationStyles } = useMemo(
-    () => getLocationProps({ origin, align, offset, clickable, open }),
-    [origin, align, offset, clickable, open]
+    () =>
+      getLocationProps({ origin, align, offset, clickable, open: virtualOpen }),
+    [origin, align, offset, clickable, virtualOpen]
   );
 
   const popoverRef = useRef<HTMLDivElement>(null);
 
-  useClickAway({ refs: [popoverRef], handler: () => setOpen(false) });
+  useClickAway({
+    refs: closeOnClickAwayRefs
+      ? [popoverRef, ...closeOnClickAwayRefs]
+      : [popoverRef],
+    handler: () => (closeOnClickAway || closeOnClickAwayRefs) && setOpen(false),
+  });
 
   return (
-    <div className={cn("popover-container", "relative inline")} ref={ref}>
-      <div
-        className={cn("popover-trigger", "peer inline")}
-        onClick={handleToggleOpen}
-      >
+    <div className={cn("popover-container", "relative")} ref={ref}>
+      <div className={cn("popover-trigger", "peer")} onClick={handleToggleOpen}>
         {children}
       </div>
       <div
         ref={popoverRef}
         className={cn(
           "popover",
-          "transition-all absolute opacity-0 invisible",
+          "transition-all absolute opacity-0 invisible z-10",
           clickable
-            ? `${open && "opacity-100 visible"}`
+            ? `${virtualOpen && "opacity-100 visible"}`
             : "peer-hover:opacity-100 peer-hover:visible",
           locationClasses,
           className

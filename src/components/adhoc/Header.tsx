@@ -60,7 +60,7 @@ export const Header: React.FC = () => {
   return (
     <header
       className={cn(
-        "fixed left-0 right-0 top-0 flex items-center z-10",
+        "fixed left-0 right-0 top-0 flex items-center z-40",
         "from-twitch to-twitch-dark bg-gradient-to-br text-white shadow-md"
       )}
       style={{ height: HeaderConstants.HEADER_HEIGHT }}

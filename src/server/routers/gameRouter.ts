@@ -71,4 +71,23 @@ export const gameRouter = router({
 
       return game;
     }),
+  getTop: partialProcedure
+    .input(z.number())
+    .query(async ({ ctx: { accessToken }, input: topCount }) => {
+      const response = await twitchAxios<TwitchApiGame>({
+        endpoint: TwitchEndpoints.TOP_GAMES,
+        accessToken,
+        params: { first: topCount },
+      });
+
+      if (didFail(response)) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: response.message,
+          cause: response.error,
+        });
+      }
+
+      return unwrapGames(response).games;
+    }),
 });

@@ -5,3 +5,8 @@
 GET {{baseUrl}}/{{gamesPath}}?name=Minecraft
 Client-Id: {{$dotenv CLIENT_ID}}
 Authorization: Bearer {{$dotenv ACCESS_TOKEN}}
+
+### Get Top games
+GET {{baseUrl}}/{{gamesPath}}/top?first=30
+Client-Id: {{$dotenv CLIENT_ID}}
+Authorization: Bearer {{$dotenv ACCESS_TOKEN}}
