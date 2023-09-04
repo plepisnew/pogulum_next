@@ -98,6 +98,7 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({
 
     return (
       <option
+        tabIndex={0}
         key={option.value}
         onClick={() => handleSelectOption(option.value)}
         className={cn(
@@ -139,12 +140,15 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({
         )}
       ></div> */}
       <div
+        tabIndex={-1}
         ref={optionsContainerRef}
         className={cn(
           "flex flex-col absolute max-h-[500px]",
           "left-0 right-0 p-1 gap-1",
           "overflow-scroll transition-all origin-top",
           "bg-white text-zinc-900 rounded-b-2xl",
+          // TODO fix focus
+          "focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-1 focus-visible:outline-twitch-800",
           optionsOpen ? "scale-y-100" : "scale-y-0",
           optionsContainerClassName
         )}
