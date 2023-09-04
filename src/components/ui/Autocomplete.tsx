@@ -23,6 +23,8 @@ export type AutocompleteProps = {
   wrapperClassName?: string;
 };
 
+// TODO add automatic searching for options
+
 export const boldenMatcher = (text: string, matcher: string): ReactNode[] => {
   if (matcher.length === 0) return [text];
 
@@ -122,19 +124,28 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({
           end={
             <RxCross1 className="cursor-pointer" onClick={handleDeleteInput} />
           }
-          containerClassName={cn(optionsOpen && "rounded-b-none border-white")}
-          onFocus={undefined}
           {...inputProps}
+          containerClassName={cn(
+            inputProps?.containerClassName,
+            optionsOpen && "border-twitch-100 rounded-b-none"
+          )}
+          onFocus={undefined}
         />
       </div>
+      {/* <div
+        className={cn(
+          "absolute top-1/2 bg-white left-0 right-0 h-1/2 -z-10 transition-transform origin-bottom",
+          optionsOpen ? "scale-y-100" : "scale-y-0"
+        )}
+      ></div> */}
       <div
         ref={optionsContainerRef}
         className={cn(
-          "flex flex-col absolute max-h-[500px] ",
+          "flex flex-col absolute max-h-[500px]",
           "left-0 right-0 p-1 gap-1",
           "overflow-scroll transition-all origin-top",
-          "bg-white text-black rounded-b-md",
-          optionsOpen ? "scale-y-100" : "scale-y-0 opacity-0",
+          "bg-white text-zinc-900 rounded-b-2xl",
+          optionsOpen ? "scale-y-100" : "scale-y-0",
           optionsContainerClassName
         )}
       >

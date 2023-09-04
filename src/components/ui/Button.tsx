@@ -42,9 +42,9 @@ export const buttonVariants: Record<
   },
   text: {
     default:
-      "outline-twitch-800 text-twitch-900 enabled:hover:text-twitch-900/80 enabled:active:text-twitch-900/60",
+      "outline-twitch-800 text-twitch-900 enabled:hover:text-twitch-900/80 enabled:active:text-twitch-900/60 border-transparent",
     inverse:
-      "outline-twitch-100 text-twitch-100 enabled:hover:text-twitch-100/80 enabled:active:text-twitch-100/60",
+      "outline-twitch-100 text-twitch-100 enabled:hover:text-twitch-100/80 enabled:active:text-twitch-100/60 border-transparent",
   },
 };
 

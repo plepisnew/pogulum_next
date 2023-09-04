@@ -4,13 +4,14 @@ import { TextInput } from "@/components/ui/TextInput";
 import { cn } from "@/utils/cn";
 import { PageTitle } from "@/components/adhoc/PageTitle";
 import { Button } from "@/components/ui/Button";
-import { FaSearch } from "react-icons/fa";
-import { toast } from "react-hot-toast";
+import { FaGamepad, FaSearch } from "react-icons/fa";
 import { Autocomplete, boldenMatcher } from "@/components/ui/Autocomplete";
 import Image from "next/image";
 import { trpc } from "@/utils/trpc";
 import { concreteDimensions } from "@/utils/twitch";
 import React from "react";
+
+// TODO fix this stupid bottom border radius shit
 
 const ScraperPage: React.FC = () => {
   const VerticalDivider = (
@@ -75,7 +76,13 @@ const ScraperPage: React.FC = () => {
             </Button>
           </div>
           <div>
-            <Autocomplete options={gameOptions} />
+            <Autocomplete
+              options={gameOptions}
+              inputProps={{
+                start: <FaGamepad />,
+                containerClassName: "rounded-xl",
+              }}
+            />
           </div>
           {/* <div>name filter</div>
           <div>sort by user</div>
