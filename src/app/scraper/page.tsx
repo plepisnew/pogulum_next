@@ -1,17 +1,8 @@
 "use client";
 
-import { TextInput } from "@/components/ui/TextInput";
 import { cn } from "@/utils/cn";
-import { PageTitle } from "@/components/adhoc/PageTitle";
-import { Button } from "@/components/ui/Button";
-import { FaGamepad, FaSearch } from "react-icons/fa";
-import { Autocomplete, boldenMatcher } from "@/components/ui/Autocomplete";
-import Image from "next/image";
 import { trpc } from "@/utils/trpc";
-import { concreteDimensions } from "@/utils/twitch";
 import React from "react";
-
-// TODO fix this stupid bottom border radius shit
 
 const ScraperPage: React.FC = () => {
   const VerticalDivider = (
@@ -20,33 +11,8 @@ const ScraperPage: React.FC = () => {
 
   const { data: topGames } = trpc.twitch.games.getTop.useQuery(100);
 
-  const gameOptions =
-    topGames?.map((game) => ({
-      value: game.name,
-      render: (value: string) => (
-        <React.Fragment>
-          <Image
-            width={36}
-            height={36}
-            src={concreteDimensions({
-              url: game.boxArtUrl,
-              width: 36,
-              height: 36,
-            })}
-            alt={game.name}
-            className="border border-black rounded-md inline mr-2"
-          />
-          {boldenMatcher(game.name, value)}
-        </React.Fragment>
-      ),
-    })) ?? [];
-
   return (
     <div className={cn("flex flex-col gap-4 h-full")}>
-      <PageTitle
-        highlight="scraper"
-        helperText="This is where you can find clips based on different criteria and edit them into a single downloadable video"
-      />
       <div
         className={cn(
           "flex h-full p-4 gap-4",
@@ -65,25 +31,6 @@ const ScraperPage: React.FC = () => {
         </div>
         {VerticalDivider}
         <div className="flex-[2] flex flex-col gap-2">
-          <div className="flex gap-2">
-            <TextInput
-              wrapperClassName="flex-1"
-              containerClassName="rounded-full"
-              start={<FaSearch className="ml-1" />}
-            />
-            <Button className="w-[100px] rounded-full" inverse>
-              Submit
-            </Button>
-          </div>
-          <div>
-            <Autocomplete
-              options={gameOptions}
-              inputProps={{
-                start: <FaGamepad />,
-                containerClassName: "rounded-xl",
-              }}
-            />
-          </div>
           {/* <div>name filter</div>
           <div>sort by user</div>
           <div>sort by game</div>

@@ -13,3 +13,11 @@ a:focus-visible {
   @apply outline-offset-2;
   @apply transition-colors;
 }
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  scrollbar-width: none;
+}

@@ -6,7 +6,7 @@
     {
       "label": "Develop",
       "type": "process",
-      "command": "yarn",
+      "command": "bun",
       "args": [
         "dev"
       ],
@@ -18,13 +18,26 @@
     {
       "label": "Build",
       "type": "process",
-      "command": "yarn",
+      "command": "bun",
       "args": [
         "build"
       ],
       "icon": {
         "color": "terminal.ansiYellow",
         "id": "tools"
+      }
+    },
+    {
+      "label": "Validate translations",
+      "type": "process",
+      "command": "bun",
+      "args": [
+        "run",
+        "./src/i18n/validate.ts"
+      ],
+      "icon": {
+        "color": "terminal.ansiWhite",
+        "id": "globe"
       }
     }
   ]

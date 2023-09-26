@@ -6,7 +6,6 @@ import { PropsWithChildren } from "react";
 import { trpc } from "@/utils/trpc";
 import { Header, HeaderLayout } from "@/components/adhoc/Header";
 import { Footer } from "@/components/adhoc/Footer";
-import { Toaster } from "react-hot-toast";
 
 const font = Manrope({ subsets: ["latin"] });
 
@@ -18,7 +17,6 @@ const RootLayout: React.FC<PropsWithChildren> = ({ children }) => {
         <meta name="description" content="Pogulum: Twitch Clip Scraper" />
       </head>
       <body className={font.className}>
-        <Toaster />
         <Header />
         <HeaderLayout>{children}</HeaderLayout>
         <Footer />
