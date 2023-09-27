@@ -14,8 +14,9 @@ export const Header: React.FC = () => {
   const ulRef = useRef<HTMLUListElement>(null);
   const [navItemRects, setNavItemRects] = useState<DOMRect[]>();
 
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
+  console.log(navItemRects?.map((rect) => rect.width));
   useEffect(() => {
     const navItemNodes = ulRef.current?.children;
     if (!navItemNodes) return;
@@ -24,7 +25,7 @@ export const Header: React.FC = () => {
       [...navItemNodes].map((node) => node.getBoundingClientRect())
     );
     // Consider adding scroll animations (like blurring background on scroll)
-  }, []);
+  }, [i18n.language]);
 
   const selectedNavItemIndex = navItems.findIndex(
     (navItem) => navItem.path === pathname
@@ -51,15 +52,15 @@ export const Header: React.FC = () => {
   );
 
   const Navigation = (
-    <nav>
+    <nav className="relative">
+      {Slider}
       <ul
         ref={ulRef}
-        className={cn("relative flex")}
+        className="flex"
         style={{ gap: headerOptions.navItemGap }}
       >
-        {Slider}
-        {navItems.map(({ label, path, Icon }, navIndex) => (
-          <li key={label}>
+        {navItems.map(({ path, Icon, ...options }, navIndex) => (
+          <li key={navIndex}>
             <Link
               href={path}
               className={cn(
@@ -72,7 +73,8 @@ export const Header: React.FC = () => {
                 "default-ring"
               )}
             >
-              <Icon className="inline" /> {label}
+              <Icon className="inline" />{" "}
+              {"label" in options ? options.label : t(options.labelKey)}
             </Link>
           </li>
         ))}

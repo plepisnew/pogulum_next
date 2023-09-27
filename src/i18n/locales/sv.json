@@ -3,5 +3,9 @@
     "home": "Hem",
     "clips": "Klämmor",
     "scraper": "skrapa"
+  },
+  "footer": {
+    "developer": "Utvecklare",
+    "reference": "Twitch API Referens"
   }
 }

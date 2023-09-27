@@ -1,33 +1,31 @@
+import { TransKey } from "@/i18n";
+import { Resources } from "i18next";
 import { IconType } from "react-icons";
-import {
-  FaHome,
-  FaVideo,
-  FaSearch,
-  FaGithub,
-  FaUserAstronaut,
-  FaRegFileCode,
-  FaExternalLinkAlt,
-} from "react-icons/fa";
+import { FaHome, FaVideo, FaSearch, FaExternalLinkAlt } from "react-icons/fa";
 
 export type NavItem = {
-  label: string;
   path: string;
   Icon: IconType;
-};
+} & (
+  | {
+      label: string;
+    }
+  | { labelKey: TransKey }
+);
 
 export const headerNavItems: NavItem[] = [
   {
-    label: "Home",
+    labelKey: "header.home",
     path: "/",
     Icon: FaHome,
   },
   {
-    label: "Scraper",
+    labelKey: "header.scraper",
     path: "/scraper",
     Icon: FaSearch,
   },
   {
-    label: "Clips",
+    labelKey: "header.clips",
     path: "/clips",
     Icon: FaVideo,
   },
@@ -40,12 +38,12 @@ export const footerNavItems: NavItem[] = [
     Icon: FaExternalLinkAlt,
   },
   {
-    label: "Developer",
+    labelKey: "footer.developer",
     path: "https://plepis.me",
     Icon: FaExternalLinkAlt,
   },
   {
-    label: "Twitch API Reference",
+    labelKey: "footer.reference",
     path: "https://dev.twitch.tv/docs/api/reference/",
     Icon: FaExternalLinkAlt,
   },

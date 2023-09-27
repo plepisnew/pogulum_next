@@ -3,5 +3,9 @@
     "home": "Sākums",
     "clips": "Klipi",
     "scraper": "Meklētājs"
+  },
+  "footer": {
+    "developer": "Izstrādātājs",
+    "reference": "Twitch API Reference"
   }
 }

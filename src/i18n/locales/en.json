@@ -1,7 +1,11 @@
 {
   "header": {
     "home": "Home",
-    "clips": "Clips",
-    "scraper": "Scraper"
+    "scraper": "Scraper",
+    "clips": "Clips"
+  },
+  "footer": {
+    "developer": "Developer",
+    "reference": "Twitch API Reference"
   }
 }

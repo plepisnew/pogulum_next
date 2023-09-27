@@ -2,8 +2,11 @@ import { cn } from "@/lib/utils";
 import React from "react";
 import { footerNavItems as navItems } from "./constants";
 import { FaTwitch } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 export const Footer: React.FC = () => {
+  const { t } = useTranslation();
+
   return (
     <footer
       className={cn(
@@ -15,8 +18,8 @@ export const Footer: React.FC = () => {
       <div className="flex container py-7 items-center">
         <nav>
           <ul className="flex flex-col gap-2 items-start">
-            {navItems.map(({ Icon, label, path }) => (
-              <li key={label}>
+            {navItems.map(({ Icon, path, ...options }, navIndex) => (
+              <li key={navIndex}>
                 <a
                   href={path}
                   target="_blank"
@@ -25,7 +28,8 @@ export const Footer: React.FC = () => {
                     "rounded-md default-ring"
                   )}
                 >
-                  {label} <Icon />
+                  {"label" in options ? options.label : t(options.labelKey)}{" "}
+                  <Icon />
                 </a>
               </li>
             ))}
