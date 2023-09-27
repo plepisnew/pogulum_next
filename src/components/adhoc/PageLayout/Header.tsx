@@ -5,16 +5,16 @@ import React, { useEffect, useRef, useState } from "react";
 import { headerOptions, headerNavItems as navItems } from "./constants";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ThemeSwitch } from "@/components/ui/ThemeSwitch";
-
-// TODO fix focus ring *sometimes* adding size to client rects
-// TODO fix build failing cause of localStorage
-// TODO figure out if this is all related to server/client-side
+import { ThemeSwitch } from "./ThemeSwitch";
+import { LanguageDropdown } from "./LanguageDropdown";
+import { useTranslation } from "react-i18next";
 
 export const Header: React.FC = () => {
   const pathname = usePathname();
   const ulRef = useRef<HTMLUListElement>(null);
   const [navItemRects, setNavItemRects] = useState<DOMRect[]>();
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     const navItemNodes = ulRef.current?.children;
@@ -69,7 +69,7 @@ export const Header: React.FC = () => {
                   ? "opacity-100"
                   : "opacity-60 hover:opacity-80",
                 "border-white hover:bg-secondary/5",
-                "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-offset-2 focus-visible:ring-offset-primary focus-visible:ring-secondary "
+                "default-ring"
               )}
             >
               <Icon className="inline" /> {label}
@@ -90,9 +90,10 @@ export const Header: React.FC = () => {
       )}
       style={{ height: headerOptions.height }}
     >
-      <div className="flex container items-center">
+      <div className="flex container items-center gap-3">
         {Navigation}
         <div className="flex-1" />
+        <LanguageDropdown />
         <ThemeSwitch />
       </div>
     </header>

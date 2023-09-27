@@ -13,3 +13,16 @@
 html, body, #root {
   height: 100%;
 }
+
+.default-ring {
+  /* disable outline and create ring */
+  @apply focus-visible:outline-none;
+  @apply focus-visible:ring-1;
+  @apply focus-visible:ring-offset-2;
+
+  /* default ring colors */
+  @apply focus-visible:ring-secondary;
+  @apply focus-visible:ring-offset-primary;
+  @apply dark:focus-visible:ring-_secondary;
+  @apply dark:focus-visible:ring-offset-_primary;
+}

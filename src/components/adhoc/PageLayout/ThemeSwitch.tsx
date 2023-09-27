@@ -17,10 +17,8 @@ const ThemeSwitch = React.forwardRef<
       className={cn(
         "peer inline-flex h-[24px] w-[44px] shrink-0 items-center",
         "cursor-pointer rounded-full border-2 border-transparent transition-colors",
-        "disabled:cursor-not-allowed disabled:opacity-50",
-        "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-offset-2",
-        "focus-visible:ring-secondary focus-visible:ring-offset-primary bg-secondary",
-        "dark:focus-visible:ring-zinc-300 dark:focus-visible:ring-offset-zinc-950 dark:data-[state=checked]:bg-zinc-50 dark:data-[state=unchecked]:bg-zinc-800",
+        "disabled:cursor-not-allowed disabled:opacity-50 default-ring",
+        "bg-secondary dark:data-[state=checked]:bg-zinc-50 dark:data-[state=unchecked]:bg-zinc-800",
         className
       )}
       {...props}

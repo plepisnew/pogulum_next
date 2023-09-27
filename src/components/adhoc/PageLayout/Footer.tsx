@@ -22,9 +22,7 @@ export const Footer: React.FC = () => {
                   target="_blank"
                   className={cn(
                     "flex items-center gap-2 px-2",
-                    "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-offset-1 rounded-md",
-                    "focus-visible:ring-secondary focus-visible:ring-offset-primary",
-                    "dark:focus-visible:ring-_secondary dark:focus-visible:ring-offset-_primary"
+                    "rounded-md default-ring"
                   )}
                 >
                   {label} <Icon />
@@ -40,11 +38,8 @@ export const Footer: React.FC = () => {
             target="_blank"
             className={cn(
               "flex items-center gap-2 px-2 py-1",
-              "border rounded-md transition-colors",
-              "hover:bg-secondary/10 dark:hover:bg-_secondary/10",
-              "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-offset-1",
-              "focus-visible:ring-secondary focus-visible:ring-offset-primary",
-              "dark:focus-visible:ring-_secondary dark:focus-visible:ring-offset-_primary"
+              "border rounded-md transition-colors default-ring",
+              "hover:bg-secondary/10 dark:hover:bg-_secondary/10"
             )}
           >
             Powered by Twitch <FaTwitch />
