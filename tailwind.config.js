@@ -27,11 +27,11 @@ module.exports = {
         // Page foreground (text color)
         "foreground": colors.indigo[900],
         // Same for dark mode
-        "primary-dark": colors.zinc[900],
-        "primary-darker-dark": colors.zinc[950],
-        "secondary-dark": colors.white,
-        "background-dark": colors.zinc[700],
-        "foreground-dark": colors.white
+        "_primary": colors.zinc[900],
+        "_primary-darker": colors.zinc[950],
+        "_secondary": colors.white,
+        "_background": colors.zinc[700],
+        "_foreground": colors.white
       }, 
       keyframes: {
         "accordion-down": {

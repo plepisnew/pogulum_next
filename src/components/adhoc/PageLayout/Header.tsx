@@ -1,18 +1,22 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { headerOptions, headerNavItems as navItems } from "./constants";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ThemeSwitch } from "@/components/ui/ThemeSwitch";
+
+// TODO fix focus ring *sometimes* adding size to client rects
+// TODO fix build failing cause of localStorage
+// TODO figure out if this is all related to server/client-side
 
 export const Header: React.FC = () => {
   const pathname = usePathname();
   const ulRef = useRef<HTMLUListElement>(null);
   const [navItemRects, setNavItemRects] = useState<DOMRect[]>();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const navItemNodes = ulRef.current?.children;
     if (!navItemNodes) return;
 
@@ -81,7 +85,8 @@ export const Header: React.FC = () => {
       className={cn(
         "fixed w-full flex items-center",
         "shadow-md shadow-primary/30",
-        "from-primary to-primary-darker bg-gradient-to-br text-secondary"
+        "from-primary to-primary-darker bg-gradient-to-br text-secondary",
+        "dark:from-_primary dark:to-_primary-darker dark:text-_secondary"
       )}
       style={{ height: headerOptions.height }}
     >

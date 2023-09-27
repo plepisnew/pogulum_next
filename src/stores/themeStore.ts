@@ -12,9 +12,12 @@ export const useThemeStore = create<ThemeStore>()(
   devtools(
     persist(
       (set) => ({
-        isLightMode: localStorage.getItem(lightModeKey) === "true",
+        isLightMode:
+          typeof window !== "undefined" &&
+          localStorage.getItem(lightModeKey) === "true",
         setTheme: (theme) => {
-          localStorage.setItem(lightModeKey, theme ? "true" : "false");
+          typeof window !== "undefined" &&
+            localStorage.setItem(lightModeKey, theme ? "true" : "false");
           return set({ isLightMode: theme });
         },
       }),

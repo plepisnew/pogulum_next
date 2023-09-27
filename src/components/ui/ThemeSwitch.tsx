@@ -3,7 +3,6 @@
 import * as React from "react";
 import * as SwitchPrimitives from "@radix-ui/react-switch";
 import { FaMoon, FaSun } from "react-icons/fa";
-import { FiSun } from "react-icons/fi";
 import { cn } from "@/lib/utils";
 import { useThemeStore } from "@/stores/themeStore";
 
