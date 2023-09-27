@@ -29,17 +29,10 @@ i18n
   .init({
     debug: process.env.NODE_ENV === "development",
     fallbackLng: "en",
+    supportedLngs: supportedLanguages.map(({ code }) => code),
     resources,
     detection: {
-      order: [
-        "querystring",
-        "cookie",
-        "localStorage",
-        "sessionStorage",
-        "navigator",
-        "htmlTag",
-        "path",
-      ],
+      order: ["querystring", "cookie", "localStorage", "path"],
     },
   });
 

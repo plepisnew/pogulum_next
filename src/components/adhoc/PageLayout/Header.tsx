@@ -16,7 +16,6 @@ export const Header: React.FC = () => {
 
   const { t, i18n } = useTranslation();
 
-  console.log(navItemRects?.map((rect) => rect.width));
   useEffect(() => {
     const navItemNodes = ulRef.current?.children;
     if (!navItemNodes) return;
