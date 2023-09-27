@@ -84,9 +84,9 @@ export const Header: React.FC = () => {
     <header
       className={cn(
         "fixed w-full flex items-center",
-        "shadow-md shadow-primary/30",
-        "from-primary to-primary-darker bg-gradient-to-br text-secondary",
-        "dark:from-_primary dark:to-_primary-darker dark:text-_secondary"
+        "shadow-md",
+        "from-primary to-primary-darker bg-gradient-to-br text-secondary shadow-primary/30",
+        "dark:from-_primary dark:to-_primary-darker dark:text-_secondary dark:shadow-_primary/30"
       )}
       style={{ height: headerOptions.height }}
     >

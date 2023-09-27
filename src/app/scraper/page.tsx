@@ -11,7 +11,7 @@ const ScraperPage: React.FC = () => {
 
   const { data: topGames } = trpc.twitch.games.getTop.useQuery(100);
 
-  return <div className={cn("flex flex-col gap-4 h-full")}></div>;
+  return <div className={cn("flex flex-col gap-4 h-full")}>scraper</div>;
 };
 
 export default ScraperPage;
