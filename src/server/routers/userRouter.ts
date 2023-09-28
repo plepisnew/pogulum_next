@@ -39,7 +39,6 @@ export const getUserByLogin = async ({
   return user;
 };
 
-// TODO get by popularity
 export const userRouter = router({
   getByLogin: partialProcedure
     .input(z.string())

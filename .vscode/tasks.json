@@ -8,6 +8,7 @@
       "type": "process",
       "command": "bun",
       "args": [
+        "run",
         "dev"
       ],
       "icon": {
@@ -20,6 +21,7 @@
       "type": "process",
       "command": "bun",
       "args": [
+        "run",
         "build"
       ],
       "icon": {

@@ -14,6 +14,8 @@ import { supportedLanguages } from "@/i18n";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
+// TODO figure out why language has awkward shift on initial load/refresh
+// TODO figure out why theme has awkward shift on initial load/refresh
 export const LanguageDropdown: React.FC = () => {
   const { i18n, t } = useTranslation();
 

@@ -13,7 +13,6 @@ const getBaseUrl = () => {
   return `http://localhost:${process.env.PORT ?? 3000}`;
 };
 
-// TODO make sure to handle loading states in prod
 export const trpc = createTRPCNext<AppRouter>({
   config: (options) => ({
     queryClientConfig: {

@@ -39,7 +39,6 @@ export const getGameByName = async ({
   return game;
 };
 
-// TODO get by popularity
 export const gameRouter = router({
   getByName: partialProcedure
     .input(z.string())
