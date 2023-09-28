@@ -1,4 +1,5 @@
-const HomePage: React.FC = () => {
+const HomePage: React.FC = (props) => {
+  console.log(props);
   return (
     <div>
       <div>Some crazy idea pitch</div>

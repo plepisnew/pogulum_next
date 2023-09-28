@@ -4,13 +4,13 @@ import * as React from "react";
 import * as SwitchPrimitives from "@radix-ui/react-switch";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { cn } from "@/lib/utils";
-import { useThemeStore } from "@/stores/themeStore";
+import { useTheme } from "next-themes";
 
 const ThemeSwitch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitives.Root>,
   React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>
 >(({ className, ...props }, ref) => {
-  const { isLightMode, setTheme } = useThemeStore();
+  const { theme, setTheme } = useTheme();
 
   return (
     <SwitchPrimitives.Root
@@ -22,8 +22,8 @@ const ThemeSwitch = React.forwardRef<
         className
       )}
       {...props}
-      defaultChecked={isLightMode}
-      onCheckedChange={setTheme}
+      checked={theme === "light"}
+      onCheckedChange={(val) => setTheme(val ? "light" : "dark")}
       ref={ref}
     >
       <SwitchPrimitives.Thumb
@@ -34,11 +34,11 @@ const ThemeSwitch = React.forwardRef<
           "dark:bg-zinc-950"
         )}
       >
-        {isLightMode ? (
+        {/* {isLightMode ? (
           <FaSun className="text-yellow-400" />
         ) : (
           <FaMoon className="text-white" />
-        )}
+        )} */}
       </SwitchPrimitives.Thumb>
     </SwitchPrimitives.Root>
   );

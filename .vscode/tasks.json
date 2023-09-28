@@ -41,6 +41,19 @@
         "color": "terminal.ansiWhite",
         "id": "globe"
       }
+    },
+    {
+      "label": "Start server",
+      "type": "process",
+      "command": "bun",
+      "args": [
+        "run",
+        "start"
+      ],
+      "icon": {
+        "color": "terminal.ansiCyan",
+        "id": "server"
+      }
     }
   ]
 }

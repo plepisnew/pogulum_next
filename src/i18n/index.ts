@@ -27,7 +27,7 @@ i18n
   .use(initReactI18next)
   .use(LanguageDetector)
   .init({
-    debug: process.env.NODE_ENV === "development",
+    // debug: process.env.NODE_ENV === "development",
     fallbackLng: "en",
     supportedLngs: supportedLanguages.map(({ code }) => code),
     resources,
@@ -35,5 +35,11 @@ i18n
       order: ["querystring", "cookie", "localStorage", "path"],
     },
   });
+
+const locales = {
+  en: () => import("./locales/en.json").then((module) => module.default),
+  sv: () => import("./locales/sv.json").then((module) => module.default),
+  lv: () => import("./locales/lv.json").then((module) => module.default),
+};
 
 export { i18n };

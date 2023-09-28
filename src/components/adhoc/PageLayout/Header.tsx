@@ -16,6 +16,9 @@ export const Header: React.FC = () => {
 
   const { t, i18n } = useTranslation();
 
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  console.log("????????");
   useEffect(() => {
     const navItemNodes = ulRef.current?.children;
     if (!navItemNodes) return;
@@ -23,8 +26,9 @@ export const Header: React.FC = () => {
     setNavItemRects(
       [...navItemNodes].map((node) => node.getBoundingClientRect())
     );
+    console.log(mounted);
     // Consider adding scroll animations (like blurring background on scroll)
-  }, [i18n.language]);
+  }, [i18n.language, mounted]);
 
   const selectedNavItemIndex = navItems.findIndex(
     (navItem) => navItem.path === pathname
@@ -80,7 +84,6 @@ export const Header: React.FC = () => {
       </ul>
     </nav>
   );
-
   return (
     <header
       className={cn(
