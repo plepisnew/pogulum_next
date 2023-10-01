@@ -7,18 +7,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ThemeSwitch } from "./ThemeSwitch";
 import { LanguageDropdown } from "./LanguageDropdown";
-import { useTranslation } from "react-i18next";
+import { stripLanguage } from "@/app/i18n/utils";
 
 export const Header: React.FC = () => {
-  const pathname = usePathname();
+  const _pathname = usePathname();
+  const pathname = stripLanguage(_pathname);
+
   const ulRef = useRef<HTMLUListElement>(null);
   const [navItemRects, setNavItemRects] = useState<DOMRect[]>();
 
-  const { t, i18n } = useTranslation();
-
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-  console.log("????????");
   useEffect(() => {
     const navItemNodes = ulRef.current?.children;
     if (!navItemNodes) return;
@@ -26,9 +23,8 @@ export const Header: React.FC = () => {
     setNavItemRects(
       [...navItemNodes].map((node) => node.getBoundingClientRect())
     );
-    console.log(mounted);
     // Consider adding scroll animations (like blurring background on scroll)
-  }, [i18n.language, mounted]);
+  }, []);
 
   const selectedNavItemIndex = navItems.findIndex(
     (navItem) => navItem.path === pathname
@@ -39,7 +35,7 @@ export const Header: React.FC = () => {
       className={cn(
         "absolute top-1/2 -translate-y-1/2",
         "border border-b-[3px] rounded-md transition-all pointer-events-none",
-        "border-white"
+        "border-primary-foreground"
       )}
       style={{
         left: navItemRects
@@ -72,12 +68,12 @@ export const Header: React.FC = () => {
                 selectedNavItemIndex === navIndex
                   ? "opacity-100"
                   : "opacity-60 hover:opacity-80",
-                "border-white hover:bg-secondary/5",
-                "default-ring"
+                "border-primary-foreground hover:bg-primary-foreground/5",
+                "default-ring-primary"
               )}
             >
               <Icon className="inline" />{" "}
-              {"label" in options ? options.label : t(options.labelKey)}
+              {"label" in options ? options.label : options.labelKey}
             </Link>
           </li>
         ))}
@@ -89,15 +85,15 @@ export const Header: React.FC = () => {
       className={cn(
         "fixed w-full flex items-center",
         "shadow-md",
-        "from-primary to-primary-darker bg-gradient-to-br text-secondary shadow-primary/30",
-        "dark:from-_primary dark:to-_primary-darker dark:text-_secondary dark:shadow-_primary/30"
+        "from-primary to-primary-darker bg-gradient-to-br text-primary-foreground shadow-primary/30",
+        "dark:from-_primary dark:to-_primary dark:shadow-none dark:border-b dark:border-b-_primary-foreground/30"
       )}
       style={{ height: headerOptions.height }}
     >
       <div className="flex container items-center gap-3">
         {Navigation}
         <div className="flex-1" />
-        <LanguageDropdown />
+        {/* <LanguageDropdown /> */}
         <ThemeSwitch />
       </div>
     </header>

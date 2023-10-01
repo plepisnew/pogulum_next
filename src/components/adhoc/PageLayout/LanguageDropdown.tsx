@@ -10,14 +10,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
 import Image from "next/image";
-import { supportedLanguages } from "@/i18n";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
 // TODO figure out why language has awkward shift on initial load/refresh
 // TODO figure out why theme has awkward shift on initial load/refresh
 export const LanguageDropdown: React.FC = () => {
-  const { i18n, t } = useTranslation();
+  // const { i18n, t } = useTranslation();
 
   return (
     <DropdownMenu>
@@ -25,7 +24,7 @@ export const LanguageDropdown: React.FC = () => {
         tabIndex={0}
         className={cn("px-2", "default-ring rounded-md")}
       >
-        {i18n.language.toUpperCase()}
+        {/* {i18n.language.toUpperCase()} */}
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
@@ -35,10 +34,10 @@ export const LanguageDropdown: React.FC = () => {
       >
         <DropdownMenuRadioGroup
           className="flex flex-col gap-1"
-          value={i18n.language}
-          onValueChange={(value) => i18n.changeLanguage(value)}
+          // value={i18n.language}
+          // onValueChange={(value) => i18n.changeLanguage(value)}
         >
-          {supportedLanguages.map(({ code, label, imageSrc }) => (
+          {/* {supportedLanguages.map(({ code, label, imageSrc }) => (
             <DropdownMenuRadioItem
               value={code}
               key={label}
@@ -53,7 +52,7 @@ export const LanguageDropdown: React.FC = () => {
               />
               {label}
             </DropdownMenuRadioItem>
-          ))}
+          ))} */}
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>

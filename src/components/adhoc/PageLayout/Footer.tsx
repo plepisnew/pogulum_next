@@ -11,8 +11,8 @@ export const Footer: React.FC = () => {
     <footer
       className={cn(
         "bg-gradient-to-br",
-        "from-primary to-primary-darker text-secondary",
-        "dark:from-_primary dark:to-_primary-darker text-_secondary"
+        "from-primary to-primary-darker text-primary-foreground",
+        "dark:from-_primary dark:to-_primary-darker dark:text-_primary-foreground dark:border-t dark:border-t-_primary-foreground/30"
       )}
     >
       <div className="flex container py-7 items-center">
@@ -25,7 +25,7 @@ export const Footer: React.FC = () => {
                   target="_blank"
                   className={cn(
                     "flex items-center gap-2 px-2",
-                    "rounded-md default-ring"
+                    "rounded-md default-ring-primary"
                   )}
                 >
                   {"label" in options ? options.label : t(options.labelKey)}{" "}
@@ -42,8 +42,9 @@ export const Footer: React.FC = () => {
             target="_blank"
             className={cn(
               "flex items-center gap-2 px-2 py-1",
-              "border rounded-md transition-colors default-ring",
-              "hover:bg-secondary/10 dark:hover:bg-_secondary/10"
+              "border rounded-md transition-colors",
+              "hover:bg-primary-foreground/10 dark:hover:bg-_primary-foreground/10",
+              "default-ring-primary"
             )}
           >
             Powered by Twitch <FaTwitch />

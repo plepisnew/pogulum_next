@@ -14,15 +14,41 @@ html, body, #root {
   height: 100%;
 }
 
-.default-ring {
-  /* disable outline and create ring */
+/* Create ring for CTA elements */
+.default-ring-cta {
+  @apply focus-visible:outline-none;
+  @apply focus-visible:ring-1;
+  @apply focus-visible:ring-offset-2;
+  
+  @apply focus-visible:ring-cta;
+  @apply focus-visible:ring-offset-background;
+  
+  @apply dark:focus-visible:ring-_cta;
+  @apply dark:focus-visible:ring-offset-_background;
+}
+
+/* Create ring for inverse CTA elements */
+.default-ring-cta-inverse {
+  @apply focus-visible:outline-none;
+  @apply focus-visible:ring-1;
+  @apply focus-visible:ring-offset-2;
+  
+  @apply focus-visible:ring-cta-foreground;
+  @apply focus-visible:ring-offset-primary;
+  
+  @apply dark:focus-visible:ring-_cta;
+  @apply dark:focus-visible:ring-offset-_background;
+}
+
+/* Create ring for elements on primary bg */
+.default-ring-primary {
   @apply focus-visible:outline-none;
   @apply focus-visible:ring-1;
   @apply focus-visible:ring-offset-2;
 
-  /* default ring colors */
-  @apply focus-visible:ring-secondary;
+  @apply focus-visible:ring-primary-foreground;
   @apply focus-visible:ring-offset-primary;
-  @apply dark:focus-visible:ring-_secondary;
+
+  @apply dark:focus-visible:ring-_primary-foreground;
   @apply dark:focus-visible:ring-offset-_primary;
 }
