@@ -1,10 +1,10 @@
 {
-  "header": {
+  "Header": {
     "home": "Sākums",
     "clips": "Klipi",
     "scraper": "Meklētājs"
   },
-  "footer": {
+  "Footer": {
     "developer": "Izstrādātājs",
     "reference": "Twitch API Reference"
   }

@@ -1,10 +1,10 @@
 {
-  "header": {
+  "Header": {
     "home": "Hem",
     "clips": "Klämmor",
     "scraper": "Skrapa"
   },
-  "footer": {
+  "Footer": {
     "developer": "Utvecklare",
     "reference": "Twitch API Referens"
   }

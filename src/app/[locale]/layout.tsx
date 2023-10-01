@@ -14,7 +14,7 @@ export type RootLayoutProps = {
   params: { locale: string };
 } & PropsWithChildren;
 
-const RootLayout: React.FC<RootLayoutProps> = async ({
+const RootLayout: React.FC<RootLayoutProps> = ({
   children,
   params: { locale },
 }) => {

@@ -25,7 +25,12 @@ const gameInputSchema = z
 
 const clipInputSchema = z
   .object({ game: z.string().optional() })
-  .and(z.object({ user: z.string().optional() }));
+  .and(z.object({ user: z.string().optional() }))
+  .and(z.object({ clipId: z.string().optional() }));
+
+const clipIdInputSchema = z.object({
+  id: z.string(),
+});
 
 type CursorInput = z.infer<typeof cursorSchema>;
 
@@ -34,6 +39,8 @@ type AccessTokenInput = { accessToken: string };
 type UserInput = z.infer<typeof userInputSchema>;
 
 type GameInput = z.infer<typeof gameInputSchema>;
+
+type ClipIdInput = z.infer<typeof clipIdInputSchema>;
 
 export const getClipsByUser = async ({
   accessToken,
@@ -91,10 +98,41 @@ export const getClipsByGame = async ({
   return unwrapClips(response);
 };
 
+export const getClipsById = async ({
+  id,
+  accessToken,
+}: ClipIdInput & AccessTokenInput) => {
+  const response = await twitchAxios<TwitchApiClip>({
+    endpoint: TwitchEndpoints.CLIPS,
+    accessToken,
+    params: { clip_id: id },
+  });
+
+  if (didFail(response)) {
+    const { message, error } = response;
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message,
+      cause: error,
+    });
+  }
+
+  return unwrapClips(response);
+};
+
 export const clipRouter = router({
   list: partialProcedure
     .input(clipInputSchema.and(cursorSchema))
     .query(async ({ ctx: { accessToken }, input }) => {
+      const clipId = input.clipId;
+
+      if(clipId) {
+        return await getClipsById({
+          id: clipId,
+          accessToken
+        })
+      }
+
       const gameId = Number(input.game)
         ? input.game
         : input.game &&

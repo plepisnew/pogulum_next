@@ -63,9 +63,10 @@ export const Header: React.FC = () => {
         {navItems.map(({ path, Icon, ...options }, navIndex) => (
           <li key={navIndex}>
             <Link
+              draggable={false}
               href={path}
               className={cn(
-                "flex items-center gap-2 px-4 py-1.5",
+                "flex items-center gap-2 px-4 py-1.5 select-none",
                 "border rounded-md transition-all",
                 selectedNavItemIndex === navIndex
                   ? "opacity-100"
@@ -82,6 +83,7 @@ export const Header: React.FC = () => {
       </ul>
     </nav>
   );
+
   return (
     <header
       className={cn(

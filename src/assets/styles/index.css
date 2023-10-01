@@ -2,13 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-/* *::-webkit-scrollbar {
+.scroll-none::webkit-scrollbar {
   display: none;
 }
 
-* {
+.scroll-none {
   scrollbar-width: none;
-} */
+}
 
 html, body, #root {
   height: 100%;

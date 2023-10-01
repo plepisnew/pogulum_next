@@ -17,8 +17,9 @@ export const Box: React.FC<BoxProps> = ({
   <div
     {...props}
     className={cn(
-      filled && "bg-primary dark:bg-_primary-foreground/15",
-      bordered && "border-2 border-primary dark:border-_primary-foreground/15",
+      "p-4 rounded-md",
+      filled && "bg-primary dark:bg-_primary",
+      bordered && "border border-primary dark:border-_primary-foreground/30",
       className
     )}
   />

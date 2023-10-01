@@ -14,17 +14,17 @@ export type NavItem = {
 
 export const headerNavItems: NavItem[] = [
   {
-    labelKey: "header.home",
+    labelKey: "Header.home",
     path: "/",
     Icon: FaHome,
   },
   {
-    labelKey: "header.scraper",
+    labelKey: "Header.scraper",
     path: "/scraper",
     Icon: FaSearch,
   },
   {
-    labelKey: "header.clips",
+    labelKey: "Header.clips",
     path: "/clips",
     Icon: FaVideo,
   },
@@ -37,12 +37,12 @@ export const footerNavItems: NavItem[] = [
     Icon: FaExternalLinkAlt,
   },
   {
-    labelKey: "footer.developer",
+    labelKey: "Footer.developer",
     path: "https://plepis.me",
     Icon: FaExternalLinkAlt,
   },
   {
-    labelKey: "footer.reference",
+    labelKey: "Footer.reference",
     path: "https://dev.twitch.tv/docs/api/reference/",
     Icon: FaExternalLinkAlt,
   },

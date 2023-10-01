@@ -1,11 +1,29 @@
 {
-  "header": {
+  "Header": {
     "home": "Home",
     "scraper": "Scraper",
     "clips": "Clips"
   },
-  "footer": {
+  "Footer": {
     "developer": "Developer",
     "reference": "Twitch API Reference"
+  },
+  "Scraper": {
+    "querySection": {
+      "title": "1. Select filters",
+      "primary": "Primary filters",
+      "user": "Twitch User",
+      "game": "Twitch Game or Category",
+      "clipId": "Clip ID",
+      "secondary": "Secondary filters",
+      "fetch": "Fetch clips"
+    },
+    "clipSection": {
+      "title": "2. Find clips",
+      "searchPlaceholder": "Filter by title"
+    },
+    "bagSection": {
+      "title": "3. Overview"
+    }
   }
 }

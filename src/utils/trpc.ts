@@ -15,19 +15,19 @@ const getBaseUrl = () => {
 
 export const trpc = createTRPCNext<AppRouter>({
   config: (options) => ({
-    queryClientConfig: {
-      defaultOptions: {
-        queries: {
-          refetchOnWindowFocus: false,
-          retry: process.env.NODE_ENV !== "development",
-        },
-      },
-    },
+    // queryClientConfig: {
+    //   defaultOptions: {
+    //     queries: {
+    //       refetchOnWindowFocus: false,
+    //       retry: process.env.NODE_ENV !== "development",
+    //     },
+    //   },
+    // },
     links: [
       httpBatchLink({
         url: `${getBaseUrl()}/api/trpc`,
       }),
     ],
   }),
-  ssr: true,
+  ssr: false,
 });
