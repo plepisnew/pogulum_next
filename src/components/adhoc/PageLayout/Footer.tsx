@@ -2,10 +2,10 @@ import { cn } from "@/lib/utils";
 import React from "react";
 import { footerNavItems as navItems } from "./constants";
 import { FaTwitch } from "react-icons/fa";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 export const Footer: React.FC = () => {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   return (
     <footer

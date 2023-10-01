@@ -70,7 +70,7 @@ const DropdownMenuContent = React.forwardRef<
         "z-50 min-w-[8rem] p-1 flex flex-col gap-1",
         "overflow-hidden rounded-md border shadow-md",
         "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
-        "border-primary-foreground/50 bg-primary text-primary-foreground",
+        "border-primary-foreground/50 bg-primary-darker text-primary-foreground",
         "dark:border-_primary-foreground/30 dark:bg-_primary dark:text-_primary-foreground",
         className
       )}

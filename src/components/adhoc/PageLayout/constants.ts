@@ -1,5 +1,4 @@
-import { TransKey } from "@/i18n";
-import { Resources } from "i18next";
+import { TransKey } from "@/i18n/utils";
 import { IconType } from "react-icons";
 import { FaHome, FaVideo, FaSearch, FaExternalLinkAlt } from "react-icons/fa";
 

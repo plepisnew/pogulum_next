@@ -7,14 +7,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ThemeSwitch } from "./ThemeSwitch";
 import { LanguageDropdown } from "./LanguageDropdown";
-import { stripLanguage } from "@/app/i18n/utils";
+import { useStrippedPathname } from "@/i18n/utils";
+import { useTranslations } from "next-intl";
 
 export const Header: React.FC = () => {
-  const _pathname = usePathname();
-  const pathname = stripLanguage(_pathname);
+  const pathname = useStrippedPathname();
 
   const ulRef = useRef<HTMLUListElement>(null);
   const [navItemRects, setNavItemRects] = useState<DOMRect[]>();
+
+  const t = useTranslations();
 
   useEffect(() => {
     const navItemNodes = ulRef.current?.children;
@@ -73,7 +75,7 @@ export const Header: React.FC = () => {
               )}
             >
               <Icon className="inline" />{" "}
-              {"label" in options ? options.label : options.labelKey}
+              {"label" in options ? options.label : t(options.labelKey)}
             </Link>
           </li>
         ))}
@@ -93,7 +95,7 @@ export const Header: React.FC = () => {
       <div className="flex container items-center gap-3">
         {Navigation}
         <div className="flex-1" />
-        {/* <LanguageDropdown /> */}
+        <LanguageDropdown />
         <ThemeSwitch />
       </div>
     </header>

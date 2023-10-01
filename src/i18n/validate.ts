@@ -1,6 +1,7 @@
-import enTranslation from "./locales/en.json";
-import svTranslation from "./locales/sv.json";
-import lvTranslation from "./locales/lv.json";
+import enTranslation from "@/i18n/messages/en.json";
+import svTranslation from "@/i18n/messages/sv.json";
+import lvTranslation from "@/i18n/messages/lv.json";
+
 import { z } from "zod";
 
 const translation = {

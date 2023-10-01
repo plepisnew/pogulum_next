@@ -2,29 +2,31 @@
 
 import {
   DropdownMenu,
-  DropdownMenuArrow,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { useTranslation } from "react-i18next";
+import { useLocale } from "next-intl";
+import Link from "next-intl/link";
+import { languages, useStrippedPathname } from "@/i18n/utils";
+import { Button } from "@/components/ui/Button";
 
-// TODO figure out why language has awkward shift on initial load/refresh
-// TODO figure out why theme has awkward shift on initial load/refresh
 export const LanguageDropdown: React.FC = () => {
-  // const { i18n, t } = useTranslation();
+  const locale = useLocale();
+  const pathname = useStrippedPathname();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        tabIndex={0}
-        className={cn("px-2", "default-ring rounded-md")}
+        className={cn("px-2", "default-ring-primary rounded-md")}
+        asChild
       >
-        {/* {i18n.language.toUpperCase()} */}
+        <Button variant="tonal-inverse" size="icon">
+          {locale.toUpperCase()}
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
@@ -32,27 +34,28 @@ export const LanguageDropdown: React.FC = () => {
         sideOffset={10}
         alignOffset={-10}
       >
-        <DropdownMenuRadioGroup
-          className="flex flex-col gap-1"
-          // value={i18n.language}
-          // onValueChange={(value) => i18n.changeLanguage(value)}
-        >
-          {/* {supportedLanguages.map(({ code, label, imageSrc }) => (
+        <DropdownMenuRadioGroup className="flex flex-col gap-1" value={locale}>
+          {languages.map(({ locale, label, imageSrc }) => (
             <DropdownMenuRadioItem
-              value={code}
+              value={locale}
               key={label}
               className="flex gap-2 text-md"
             >
-              <Image
-                src={imageSrc}
-                alt={label}
-                height={20}
-                className="rounded-md"
-                // className="border border-white"
-              />
-              {label}
+              <Link
+                href={pathname}
+                locale={locale}
+                className="flex items-center gap-2"
+              >
+                <Image
+                  src={imageSrc}
+                  alt={label}
+                  height={18}
+                  className="rounded-[3px] border border-primary-foreground/50"
+                />
+                {label}
+              </Link>
             </DropdownMenuRadioItem>
-          ))} */}
+          ))}
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>
