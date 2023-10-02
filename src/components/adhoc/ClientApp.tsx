@@ -5,7 +5,8 @@ import { Header, PageContainer, Footer } from "@/components/adhoc/PageLayout";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { trpc } from "@/utils/trpc";
 import { NextComponentType } from "next";
-import { BaseContext, NextPageContext } from "next/dist/shared/lib/utils";
+import { NextPageContext } from "next/dist/shared/lib/utils";
+import { NextUIProvider } from "@nextui-org/react";
 
 export const ClientApp: NextComponentType<
   NextPageContext,
@@ -13,10 +14,12 @@ export const ClientApp: NextComponentType<
   PropsWithChildren
 > = trpc.withTRPC(({ children }) => {
   return (
-    <ThemeProvider>
-      <Header />
-      <PageContainer>{children}</PageContainer>
-      <Footer />
-    </ThemeProvider>
+    <NextUIProvider>
+      <ThemeProvider>
+        <Header />
+        <PageContainer>{children}</PageContainer>
+        <Footer />
+      </ThemeProvider>
+    </NextUIProvider>
   );
 });

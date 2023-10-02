@@ -1,9 +1,13 @@
 import colors from "tailwindcss/colors";
+import { nextui } from "@nextui-org/react";
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
-  content: ["./src/**/*.{ts,tsx}"],
+  content: [
+    "./src/**/*.{ts,tsx}",
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
+  ],
   theme: {
     container: {
       center: true,
@@ -23,7 +27,7 @@ module.exports = {
         primary: {
           DEFAULT: colors.indigo[700],
           darker: colors.indigo[800],
-          foreground: colors.white
+          foreground: colors.white,
         },
         // Call to action color (buttons and interactions)
         cta: {
@@ -31,30 +35,30 @@ module.exports = {
           light: colors.indigo[600],
           DEFAULT: colors.indigo[700],
           dark: colors.indigo[800],
-          foreground: colors.white
+          foreground: colors.white,
         },
         // Page background
         background: colors.indigo[100],
         // Page foreground (text color)
         foreground: colors.indigo[900],
         //* Dark mode
-        "_primary": {
+        _primary: {
           DEFAULT: colors.zinc[900],
           darker: colors.zinc[950],
-          foreground: colors.white
+          foreground: colors.white,
         },
         // Call to action color (buttons and interactions)
-        "_cta": {
+        _cta: {
           lighter: colors.zinc[100],
           light: colors.zinc[200],
           DEFAULT: colors.zinc[300],
           dark: colors.zinc[400],
-          foreground: colors.zinc[900]
+          foreground: colors.zinc[900],
         },
         // Page background
-        "_background": colors.zinc[900],
+        _background: colors.zinc[900],
         // Page foreground (text color)
-        "_foreground": colors.white,
+        _foreground: colors.white,
       },
       keyframes: {
         "accordion-down": {
@@ -71,9 +75,9 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       opacity: {
-        "15": ".15",
+        15: ".15",
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), nextui()],
 };

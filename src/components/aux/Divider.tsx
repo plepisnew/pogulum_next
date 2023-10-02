@@ -21,7 +21,10 @@ export const Divider: React.FC<DividerProps> = ({ className, ...props }) => {
   return (
     <div
       style={style}
-      className={cn("lmode dark:bg-_primary-foreground/30", className)}
+      className={cn(
+        "bg-_primary-foreground dark:bg-_primary-foreground/30",
+        className
+      )}
     />
   );
 };

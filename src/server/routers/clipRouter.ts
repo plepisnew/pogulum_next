@@ -126,11 +126,11 @@ export const clipRouter = router({
     .query(async ({ ctx: { accessToken }, input }) => {
       const clipId = input.clipId;
 
-      if(clipId) {
+      if (clipId) {
         return await getClipsById({
           id: clipId,
-          accessToken
-        })
+          accessToken,
+        });
       }
 
       const gameId = Number(input.game)

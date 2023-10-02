@@ -1,17 +1,8 @@
 {
 	"tailwindCSS.experimental.classRegex": [
 		[
-			"Classes \\=([^;]*);",
-			"'([^']*)'"
-		],
-		[
-			"Classes \\=([^;]*);",
-			"\"([^\"]*)\""
-		],
-		[
-			"Classes \\=([^;]*);",
-			"\\`([^\\`]*)\\`"
-		],
+			"className: \"([^\"]*)\""
+		]
 	],
 	"editor.formatOnSave": true,
 	"editor.tabSize": 2,

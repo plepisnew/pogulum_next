@@ -2,12 +2,13 @@
 
 import { Button } from "@/components/ui/Button";
 import { Box } from "@/components/aux/Box";
+import { Input } from "@/components/ui/Input";
 
 const ClipsPage: React.FC = () => {
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex gap-4 w-[500px]">
-        <Box bordered className=" flex flex-col gap-4 p-4 flex-1 rounded-md">
+      <div className="flex gap-4 w-[700px]">
+        <Box bordered className="flex flex-col gap-4 p-4 flex-1 rounded-md">
           <Button variant="primary">Primary</Button>
           <Button variant="secondary">Secondary</Button>
           <Button variant="tonal">Tonal</Button>
@@ -20,6 +21,14 @@ const ClipsPage: React.FC = () => {
           <Button variant="tonal-inverse">Tonal Inverse</Button>
           <Button variant="quiet-inverse">Quiet Inverse</Button>
           <Button variant="text-inverse">Text Inverse</Button>
+        </Box>
+      </div>
+      <div className="flex gap-4 w-[700px]">
+        <Box bordered className="flex flex-col gap-4 p-4 flex-1 rounded-md">
+          <Input />
+        </Box>
+        <Box filled className="flex flex-col gap-4 p-4 flex-1 rounded-md">
+          <Input />
         </Box>
       </div>
     </div>

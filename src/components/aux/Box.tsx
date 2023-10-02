@@ -18,7 +18,8 @@ export const Box: React.FC<BoxProps> = ({
     {...props}
     className={cn(
       "p-4 rounded-md",
-      filled && "bg-primary dark:bg-_primary",
+      filled &&
+        "bg-primary text-primary-foreground dark:bg-_primary dark:text-_primary-foreground",
       bordered && "border border-primary dark:border-_primary-foreground/30",
       className
     )}

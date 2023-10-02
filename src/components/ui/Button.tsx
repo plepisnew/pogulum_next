@@ -1,66 +1,99 @@
-import * as React from "react";
-import { Slot } from "@radix-ui/react-slot";
-import { cva, type VariantProps } from "class-variance-authority";
-
 import { cn } from "@/lib/utils";
+import {
+  Button as NextUIButton,
+  ButtonProps as NextUIButtonProps,
+} from "@nextui-org/react";
+import { Slot } from "@radix-ui/react-slot";
+import React, { forwardRef } from "react";
 
-const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50",
-  {
-    variants: {
-      variant: {
-        primary:
-          "bg-cta text-cta-foreground hover:bg-cta-light active:bg-cta-lighter default-ring-cta dark:bg-_cta-light dark:text-_cta-foreground dark:hover:bg-_cta dark:active:bg-_cta-dark",
-        secondary:
-          "text-cta-dark border-2 border-cta hover:bg-cta/5 active:bg-cta/10 default-ring-cta dark:border-_cta dark:text-_cta dark:hover:bg-_cta/10 dark:active:bg-_cta/20",
-        tonal:
-          "text-cta-dark bg-cta/10 hover:bg-cta/15 active:bg-cta/20 default-ring-cta dark:text-cta-foreground dark:bg-_cta/10 dark:hover:bg-_cta/15 dark:active:bg-_cta/20",
-        quiet:
-          "text-cta-dark hover:bg-cta/15 active:bg-cta/20 default-ring-cta dark:text-cta-foreground dark:hover:bg-_cta/15 dark:active:bg-_cta/20",
-        text: "text-cta-dark hover:text-cta-dark/80 active:text-cta/70 default-ring-cta dark:text-_cta dark:hover:text-_cta/80 dark:active:text-_cta/70",
-        "primary-inverse":
-          "bg-cta-foreground hover:bg-cta-foreground/90 active:bg-cta-foreground/80 default-ring-cta-inverse dark:bg-_cta-light dark:text-_cta-foreground dark:hover:bg-_cta dark:active:bg-_cta-dark",
-        "secondary-inverse":
-          "text-cta-foreground border-2 border-cta-foreground hover:bg-cta-foreground/10 active:bg-cta-foreground/20 default-ring-cta-inverse dark:border-_cta dark:text-_cta dark:hover:bg-_cta/10 dark:active:bg-_cta/20",
-        "tonal-inverse":
-          "text-cta-foreground bg-cta-foreground/10 hover:bg-cta-foreground/15 active:bg-cta-foreground/20 default-ring-cta-inverse dark:text-cta-foreground dark:bg-_cta/10 dark:hover:bg-_cta/15 dark:active:bg-_cta/20",
-        "quiet-inverse":
-          "text-cta-foreground hover:bg-cta-foreground/15 active:bg-cta-foreground/20 default-ring-cta-inverse dark:text-cta-foreground dark:hover:bg-_cta/15 dark:active:bg-_cta/20",
-        "text-inverse":
-          "text-cta-foreground hover:text-cta-foreground/90 active:text-cta-foreground/80 default-ring-cta-inverse dark:text-_cta dark:hover:text-_cta/80 dark:active:text-_cta/70",
-      },
-      size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-8",
-        icon: "h-10 w-10",
-      },
-    },
-    defaultVariants: {
-      variant: "primary",
-      size: "default",
-    },
-  }
-);
+export type ButtonProps = {
+  variant?:
+    | "primary"
+    | "secondary"
+    | "tonal"
+    | "quiet"
+    | "text"
+    | "primary-inverse"
+    | "secondary-inverse"
+    | "tonal-inverse"
+    | "quiet-inverse"
+    | "text-inverse";
+  icon?: boolean;
+} & Omit<NextUIButtonProps, "variant">;
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean;
-}
+const variantMapper: Record<
+  NonNullable<ButtonProps["variant"]>,
+  { variant: NextUIButtonProps["variant"]; className: string }
+> = {
+  primary: {
+    variant: "solid",
+    className:
+      "bg-cta hover:bg-cta-light text-cta-foreground dark:bg-_cta data-[focus-visible=true]:outline-cta hover:[focus-visible=true]:outline-cta-light dark:hover:bg-_cta-dark dark:text-_cta-foreground dark:data-[focus-visible=true]:outline-_cta dark:hover:[focus-visible=true]:outline-_cta-light",
+  },
+  secondary: {
+    variant: "bordered",
+    className:
+      "border-cta hover:bg-cta/10 text-cta-dark dark:border-_cta dark:hover:bg-_cta/10 dark:text-_cta",
+  },
+  tonal: {
+    variant: "flat",
+    className:
+      "bg-cta/10 hover:bg-cta/20 text-cta-dark dark:bg-_cta/10 dark:hover:bg-_cta/20 dark:text-_cta",
+  },
+  quiet: {
+    variant: "flat",
+    className:
+      "bg-transparent hover:bg-cta/20 text-cta-dark dark:hover:bg-_cta/20 dark:text-_cta",
+  },
+  text: {
+    variant: "flat",
+    className: "bg-transparent text-cta-dark dark:text-_cta",
+  },
+  "primary-inverse": {
+    variant: "solid",
+    className:
+      "bg-cta-foreground hover:bg-cta-foreground text-cta-dark dark:bg-_cta dark:hover:bg-_cta-dark dark:text-_cta-foreground",
+  },
+  "secondary-inverse": {
+    variant: "bordered",
+    className:
+      "border-cta-foreground hover:bg-cta-foreground/10 text-cta-foreground dark:border-_cta dark:hover:bg-_cta/10 dark:text-_cta",
+  },
+  "tonal-inverse": {
+    variant: "flat",
+    className:
+      "bg-cta-foreground/10 hover:bg-cta-foreground/20 text-cta-foreground dark:bg-_cta/10 dark:hover:bg-_cta/20 dark:text-_cta",
+  },
+  "quiet-inverse": {
+    variant: "flat",
+    className:
+      "bg-transparent hover:bg-cta-foreground/20 text-cta-foreground dark:hover:bg-_cta/20 dark:text-_cta",
+  },
+  "text-inverse": {
+    variant: "flat",
+    className: "bg-transparent text-cta-foreground dark:text-_cta",
+  },
+};
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button";
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant = "primary", icon = false, ...props }, ref) => {
+    const { className: variantClassName, variant: mappedVariant } =
+      variantMapper[variant];
+
     return (
-      <Comp
-        className={cn(buttonVariants({ variant, size }), className)}
+      <NextUIButton
         ref={ref}
+        variant={mappedVariant}
+        className={cn(
+          "data-[focus-visible=true]:outline data-[focus-visible=true]:outline-2",
+          variantClassName,
+          className,
+          icon && "min-w-0"
+        )}
         {...props}
       />
     );
   }
 );
-Button.displayName = "Button";
 
-export { Button, buttonVariants };
+Button.displayName = "Button";

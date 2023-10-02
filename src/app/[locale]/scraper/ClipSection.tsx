@@ -7,6 +7,7 @@ import React, { ReactNode } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { secondsToTimestamp } from "@/utils/time";
+import { FaSearch } from "react-icons/fa";
 
 export type ClipSectionProps = {
   clips?: TwitchClip[];
@@ -19,12 +20,18 @@ export const ClipSection: React.FC<ClipSectionProps> = ({ clips }) => {
   const t = useTranslations();
   const { value: titleFilter, Input: TitleFilterInput } = useInput({
     placeholder: t("Scraper.clipSection.searchPlaceholder"),
+    startContent: <FaSearch />,
+    variant: "bordered",
+    isClearable: true,
   });
 
   const clipFilterer: ArrayFilter<TwitchClip> = ({ title }) =>
     titleFilter.length === 0 ||
     title.toLowerCase().includes(titleFilter.toLowerCase());
 
+  // TODO add skeleton
+  // TODO add light mode
+  // TODO add responsiveness
   const clipRenderer: ArrayMap<TwitchClip, ReactNode> = ({
     id,
     title,
@@ -36,7 +43,7 @@ export const ClipSection: React.FC<ClipSectionProps> = ({ clips }) => {
       key={id}
       className={cn(
         "relative rounded-md border overflow-visible",
-        "dark:border-_primary-foreground/30 h-fit"
+        "dark:border-_primary-foreground/30 h-max"
       )}
     >
       <span
@@ -73,8 +80,8 @@ export const ClipSection: React.FC<ClipSectionProps> = ({ clips }) => {
       <Box
         bordered
         className={cn(
-          "p-2 grid gap-x-2 gap-y-2 grid-cols-3 grid-flow-row-dense h-full",
-          "scroll-none overflow-y-scroll"
+          "p-2 grid gap-x-2 gap-y-2 grid-cols-3 flex-1",
+          "scroll-none overflow-y-scroll content-start"
         )}
       >
         {clips === undefined
