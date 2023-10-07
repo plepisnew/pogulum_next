@@ -21,7 +21,7 @@ export type DropdownProps = {
 
 export const Dropdown: React.FC<DropdownProps> = ({
   items,
-  children,
+children,
   value,
   classNames,
   ...props
