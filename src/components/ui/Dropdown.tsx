@@ -21,7 +21,7 @@ export type DropdownProps = {
 
 export const Dropdown: React.FC<DropdownProps> = ({
   items,
-children,
+  children,
   value,
   classNames,
   ...props
@@ -30,6 +30,7 @@ children,
     <NextUIDropdown
       classNames={{
         base: "bg-primary-dark text-primary-foreground border border-primary-foreground dark:border-primary-boundary",
+        backdrop: "bg-red-500",
         ...classNames,
       }}
       {...props}
@@ -46,13 +47,11 @@ children,
         {items.map((item) => (
           <NextUIDropdownItem
             key={item.value}
+            {...item.props}
             className={cn(
-              "data-[hover=true]:bg-primary-foreground/5 data-[hover=true]:text-primary-foreground",
-              "data-[focus=true]:bg-primary-foreground/5 data-[focus=true]:text-primary-foreground",
-              "data-[selected=true]:!bg-primary-foreground/10",
+              "data-[selectable=true]:focus:bg-primary-foreground/10 data-[selectable=true]:focus:text-primary-foreground data-[hover=true]:bg-primary-foreground/10 data-[hover=true]:text-primary-foreground data-[selected=true]:bg-primary-foreground/15 data-[selected=true]:focus:bg-primary-foreground/15",
               item.props?.className
             )}
-            {...item.props}
           >
             {item.render}
           </NextUIDropdownItem>
