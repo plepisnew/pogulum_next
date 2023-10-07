@@ -6,8 +6,8 @@ import {
   DropdownItem as NextUIDropdownItem,
   DropdownItemProps as NextUIDropdownItemProps,
   DropdownProps as NextUIDropdownProps,
+  cn,
 } from "@nextui-org/react";
-import { cn } from "@/lib/utils";
 
 export type DropdownProps = {
   items: {
@@ -28,9 +28,8 @@ export const Dropdown: React.FC<DropdownProps> = ({
 }) => {
   return (
     <NextUIDropdown
-      onSelect={(e) => console.log(e)}
       classNames={{
-        base: "bg-primary text-primary-foreground border border-primary-darker",
+        base: "bg-primary-dark text-primary-foreground border border-primary-foreground dark:border-primary-boundary",
         ...classNames,
       }}
       {...props}
@@ -48,9 +47,9 @@ export const Dropdown: React.FC<DropdownProps> = ({
           <NextUIDropdownItem
             key={item.value}
             className={cn(
-              "data-[hover=true]:bg-primary-foreground/15 data-[hover=true]:text-primary-foreground",
-              "data-[focus=true]:bg-primary-foreground/15 data-[focus=true]:text-primary-foreground",
-              "data-[selected=true]:bg-primary-foreground/20",
+              "data-[hover=true]:bg-primary-foreground/5 data-[hover=true]:text-primary-foreground",
+              "data-[focus=true]:bg-primary-foreground/5 data-[focus=true]:text-primary-foreground",
+              "data-[selected=true]:!bg-primary-foreground/10",
               item.props?.className
             )}
             {...item.props}

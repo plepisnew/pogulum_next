@@ -1,3 +1,3 @@
-export * from "./Footer";
-export * from "./Header";
-export * from "./PageContainer";
+export { Footer } from "./Footer";
+export { Header } from "./Header";
+export { PageContainer } from "./PageContainer";

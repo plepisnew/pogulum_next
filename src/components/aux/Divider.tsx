@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@nextui-org/react";
 import { PropsWithClassName } from "@/utils/types";
 import { CSSProperties, HTMLAttributes } from "react";
 

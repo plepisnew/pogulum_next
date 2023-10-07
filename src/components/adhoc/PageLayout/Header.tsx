@@ -1,14 +1,13 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import React, { useEffect, useRef, useState } from "react";
 import { headerOptions, headerNavItems as navItems } from "./constants";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { ThemeSwitch } from "./ThemeSwitch";
 import { LanguageDropdown } from "./LanguageDropdown";
 import { useStrippedPathname } from "@/i18n/utils";
 import { useTranslations } from "next-intl";
+import { cn } from "@nextui-org/react";
 
 export const Header: React.FC = () => {
   const pathname = useStrippedPathname();
@@ -71,8 +70,7 @@ export const Header: React.FC = () => {
                 selectedNavItemIndex === navIndex
                   ? "opacity-100"
                   : "opacity-60 hover:opacity-80",
-                "border-primary-foreground hover:bg-primary-foreground/5",
-                "default-ring-primary"
+                "border-primary-foreground hover:bg-primary-foreground/5"
               )}
             >
               <Icon className="inline" />{" "}
@@ -88,9 +86,9 @@ export const Header: React.FC = () => {
     <header
       className={cn(
         "fixed w-full flex items-center z-10",
-        "shadow-md",
-        "from-primary to-primary-darker bg-gradient-to-br text-primary-foreground shadow-primary/30",
-        "dark:from-_primary dark:to-_primary dark:shadow-none dark:border-b dark:border-b-_primary-foreground/30"
+        "from-primary to-primary-dark bg-gradient-to-br text-primary-foreground",
+        "shadow-md shadow-primary/20",
+        "dark:shadow-none dark:border-b dark:border-b-primary-boundary"
       )}
       style={{ height: headerOptions.height }}
     >

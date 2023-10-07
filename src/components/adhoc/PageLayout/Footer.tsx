@@ -1,8 +1,8 @@
-import { cn } from "@/lib/utils";
 import React from "react";
 import { footerNavItems as navItems } from "./constants";
 import { FaTwitch } from "react-icons/fa";
 import { useTranslations } from "next-intl";
+import { cn } from "@nextui-org/react";
 
 export const Footer: React.FC = () => {
   const t = useTranslations();
@@ -10,9 +10,8 @@ export const Footer: React.FC = () => {
   return (
     <footer
       className={cn(
-        "bg-gradient-to-br",
-        "from-primary to-primary-darker text-primary-foreground",
-        "dark:from-_primary dark:to-_primary-darker dark:text-_primary-foreground dark:border-t dark:border-t-_primary-foreground/30"
+        "from-primary-dark to-primary-dark text-primary-foreground bg-gradient-to-br",
+        "dark:border-t dark:border-t-primary-boundary"
       )}
     >
       <div className="flex container py-7 items-center">
@@ -43,8 +42,7 @@ export const Footer: React.FC = () => {
             className={cn(
               "flex items-center gap-2 px-2 py-1",
               "border rounded-md transition-colors",
-              "hover:bg-primary-foreground/10 dark:hover:bg-_primary-foreground/10",
-              "default-ring-primary"
+              "hover:bg-primary-foreground/10 dark:hover:bg-_primary-foreground/5"
             )}
           >
             Powered by Twitch <FaTwitch />

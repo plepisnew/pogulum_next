@@ -3,7 +3,6 @@
 import { Dropdown } from "@/components/ui/Dropdown";
 import { Button } from "@/components/ui/Button";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
 import { useLocale } from "next-intl";
 import Link from "next-intl/link";
 import { languages, useStrippedPathname } from "@/i18n/utils";
@@ -21,7 +20,7 @@ export const LanguageDropdown: React.FC = () => {
             {language.label}
           </Link>
         ),
-        value: language.label,
+        value: language.locale,
         props: { className: "p-0" },
       }))}
     >
