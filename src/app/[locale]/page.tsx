@@ -1,4 +1,6 @@
 const HomePage: React.FC = (props) => {
+  // TODO responsiveness
+  // TODO remove scrollbars
   return (
     <div>
       <div>Some crazy idea pitch</div>

@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/Button";
 import { Box } from "@/components/aux/Box";
 import { Input } from "@/components/ui/Input";
+import { FaUser } from "react-icons/fa";
 
 const ClipsPage: React.FC = () => {
   return (
@@ -34,10 +35,102 @@ const ClipsPage: React.FC = () => {
       </div>
       <div className="flex gap-4 w-[700px]">
         <Box contained className="flex flex-col gap-4 p-4 flex-1 rounded-md">
-          <Input />
+          <Input
+            isClearable
+            startContent={<FaUser />}
+            label="Primary"
+            placeholder="Example"
+            variant="primary"
+          />
+          <Input
+            isClearable
+            startContent={<FaUser />}
+            label="Secondary"
+            placeholder="Example"
+            variant="secondary"
+          />
+
+          <Input label="Secondary" variant="secondary" />
+          <Input label="Primary" variant="primary" />
+          <Input
+            isClearable
+            startContent={<FaUser />}
+            isInvalid
+            errorMessage="Error"
+            label="Primary"
+            placeholder="Example"
+            variant="primary"
+          />
+          <Input
+            isClearable
+            startContent={<FaUser />}
+            isInvalid
+            errorMessage="Error"
+            label="Secondary"
+            placeholder="Example"
+            variant="secondary"
+          />
+          <Input
+            isInvalid
+            errorMessage="Error"
+            label="Primary"
+            variant="primary"
+          />
+          <Input
+            isInvalid
+            errorMessage="Error"
+            label="Secondary"
+            variant="secondary"
+          />
         </Box>
         <Box filled className="flex flex-col gap-4 p-4 flex-1 rounded-md">
-          <Input />
+          <Input
+            isClearable
+            startContent={<FaUser />}
+            label="Primary"
+            placeholder="Example"
+            variant="primary-inverse"
+          />
+          <Input
+            isClearable
+            startContent={<FaUser />}
+            label="Secondary"
+            placeholder="Example"
+            variant="secondary-inverse"
+          />
+
+          <Input label="Secondary" variant="secondary-inverse" />
+          <Input label="Primary" variant="primary-inverse" />
+          <Input
+            isClearable
+            startContent={<FaUser />}
+            isInvalid
+            errorMessage="Error"
+            label="Primary"
+            placeholder="Example"
+            variant="primary-inverse"
+          />
+          <Input
+            isClearable
+            startContent={<FaUser />}
+            isInvalid
+            errorMessage="Error"
+            label="Secondary"
+            placeholder="Example"
+            variant="secondary-inverse"
+          />
+          <Input
+            isInvalid
+            errorMessage="Error"
+            label="Primary"
+            variant="primary-inverse"
+          />
+          <Input
+            isInvalid
+            errorMessage="Error"
+            label="Secondary"
+            variant="secondary-inverse"
+          />
         </Box>
       </div>
     </div>

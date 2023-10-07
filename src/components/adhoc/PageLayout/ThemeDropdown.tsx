@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { Dropdown } from "@/components/ui/Dropdown";
 import _ from "lodash";
 
-export const ThemeSwitch: React.FC = () => {
+export const ThemeDropdown: React.FC = () => {
   const { theme, setTheme, themes } = useTheme();
 
   return (

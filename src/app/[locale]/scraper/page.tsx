@@ -1,5 +1,7 @@
+import { Input } from "@/components/ui/Input";
+
 const ScraperPage: React.FC = () => {
-  return <div>scraper</div>;
+  return <div></div>;
 };
 
 export default ScraperPage;

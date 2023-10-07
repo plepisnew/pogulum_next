@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { headerOptions, headerNavItems as navItems } from "./constants";
 import Link from "next/link";
-import { ThemeSwitch } from "./ThemeSwitch";
+import { ThemeDropdown } from "./ThemeDropdown";
 import { LanguageDropdown } from "./LanguageDropdown";
 import { useStrippedPathname } from "@/i18n/utils";
 import { useTranslations } from "next-intl";
@@ -96,7 +96,7 @@ export const Header: React.FC = () => {
         {Navigation}
         <div className="flex-1" />
         <LanguageDropdown />
-        <ThemeSwitch />
+        <ThemeDropdown />
       </div>
     </header>
   );
