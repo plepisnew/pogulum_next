@@ -55,7 +55,6 @@ const ClipsPage: React.FC = () => {
           <Input
             isClearable
             startContent={<FaUser />}
-            isInvalid
             errorMessage="Error"
             label="Primary"
             placeholder="Example"
@@ -64,24 +63,13 @@ const ClipsPage: React.FC = () => {
           <Input
             isClearable
             startContent={<FaUser />}
-            isInvalid
             errorMessage="Error"
             label="Secondary"
             placeholder="Example"
             variant="secondary"
           />
-          <Input
-            isInvalid
-            errorMessage="Error"
-            label="Primary"
-            variant="primary"
-          />
-          <Input
-            isInvalid
-            errorMessage="Error"
-            label="Secondary"
-            variant="secondary"
-          />
+          <Input errorMessage="Error" label="Primary" variant="primary" />
+          <Input errorMessage="Error" label="Secondary" variant="secondary" />
         </Box>
         <Box filled className="flex flex-col gap-4 p-4 flex-1 rounded-md">
           <Input
@@ -104,7 +92,6 @@ const ClipsPage: React.FC = () => {
           <Input
             isClearable
             startContent={<FaUser />}
-            isInvalid
             errorMessage="Error"
             label="Primary"
             placeholder="Example"
@@ -113,20 +100,17 @@ const ClipsPage: React.FC = () => {
           <Input
             isClearable
             startContent={<FaUser />}
-            isInvalid
             errorMessage="Error"
             label="Secondary"
             placeholder="Example"
             variant="secondary-inverse"
           />
           <Input
-            isInvalid
             errorMessage="Error"
             label="Primary"
             variant="primary-inverse"
           />
           <Input
-            isInvalid
             errorMessage="Error"
             label="Secondary"
             variant="secondary-inverse"

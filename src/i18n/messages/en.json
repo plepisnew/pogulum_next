@@ -16,7 +16,8 @@
       "game": "Twitch Game or Category",
       "clipId": "Clip ID",
       "secondary": "Secondary filters",
-      "fetch": "Fetch clips"
+      "fetch": "Fetch clips",
+      "fetching": "Fetching clips"
     },
     "clipSection": {
       "title": "2. Find clips",

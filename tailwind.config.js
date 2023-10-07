@@ -55,7 +55,7 @@ module.exports = {
               DEFAULT: colors.zinc[950],
               dark: colors.black,
               foreground: colors.white,
-              boundary: colors.zinc[500],
+              boundary: colors.zinc[700],
             },
             cta: {
               light: colors.zinc[100],

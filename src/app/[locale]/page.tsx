@@ -4,6 +4,7 @@ const HomePage: React.FC = (props) => {
   return (
     <div>
       <div>Some crazy idea pitch</div>
+      <div>with showcase on how to use the tool</div>
       {/* title */}
       {/* carousel */}
       {/* usage gif */}

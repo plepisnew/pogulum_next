@@ -50,7 +50,7 @@ const propMapper: Record<
       input: "placeholder:text-cta-foreground/50",
       clearButton: "text-cta-foreground",
       description: "",
-      errorMessage: "",
+      errorMessage: "font-medium",
     },
   },
   secondary: {
@@ -64,7 +64,7 @@ const propMapper: Record<
       input: "placeholder:text-cta-dark/50",
       clearButton: "text-cta-dark",
       description: "",
-      errorMessage: "",
+      errorMessage: "font-medium",
     },
   },
   "primary-inverse": {
@@ -77,7 +77,7 @@ const propMapper: Record<
       input: "placeholder:text-cta/50 dark:placeholder:text-cta-foreground/50",
       clearButton: "text-cta dark:text-cta-foreground",
       description: "",
-      errorMessage: "",
+      errorMessage: "font-medium",
     },
   },
   "secondary-inverse": {
@@ -92,7 +92,7 @@ const propMapper: Record<
         "placeholder:text-cta-foreground-dark/50 dark:placeholder:text-cta/50",
       clearButton: "text-cta-foreground-dark dark:text-cta",
       description: "",
-      errorMessage: "",
+      errorMessage: "font-medium",
     },
   },
 };

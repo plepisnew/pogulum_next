@@ -7,6 +7,7 @@ import { trpc } from "@/utils/trpc";
 import { NextComponentType } from "next";
 import { NextPageContext } from "next/dist/shared/lib/utils";
 import { NextUIProvider } from "@nextui-org/react";
+import { DndContext } from "@dnd-kit/core";
 
 export const ClientApp: NextComponentType<
   NextPageContext,
@@ -16,9 +17,11 @@ export const ClientApp: NextComponentType<
   return (
     <NextUIProvider>
       <ThemeProvider>
-        <Header />
-        <PageContainer>{children}</PageContainer>
-        <Footer />
+        <DndContext>
+          <Header />
+          <PageContainer>{children}</PageContainer>
+          <Footer />
+        </DndContext>
       </ThemeProvider>
     </NextUIProvider>
   );
