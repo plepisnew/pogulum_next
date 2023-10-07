@@ -4,7 +4,6 @@ import {
   Input as NextInput,
   InputProps as NextInputProps,
 } from "@nextui-org/input";
-import { cn } from "@/lib/utils";
 
 export type InputProps = {} & NextInputProps;
 
