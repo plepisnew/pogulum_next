@@ -19,7 +19,7 @@ model DbTwitchUser {
   type            String
   // affiliate, partner, <empty>
   broadcasterType String
-  description     String
+  description     String @db.Text
   profileImageUrl String
   offlineImageUrl String
   createdAt       String

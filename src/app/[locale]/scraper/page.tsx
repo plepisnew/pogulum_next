@@ -1,37 +1,18 @@
 "use client";
 /* eslint-disable react/display-name */
 
-import { Divider } from "@/components/aux/Divider";
 import { Button } from "@/components/ui/Button";
-import Image from "next/image";
 import { useInput } from "@/hooks/useInput";
 import { TransKey } from "@/i18n/utils";
 import { trpc } from "@/utils/trpc";
 import { cn } from "@nextui-org/react";
 import { useTranslations } from "next-intl";
-import { MouseEventHandler, ReactNode, useState } from "react";
-import {
-  FaCamera,
-  FaGamepad,
-  FaQuestionCircle,
-  FaSearch,
-  FaUser,
-} from "react-icons/fa";
+import { ReactNode } from "react";
+import { FaCamera, FaSearch } from "react-icons/fa";
 import { ClipCard } from "./ClipCard";
-import {
-  EntityAutocompleteProps,
-  filterItems,
-  useAutocomplete,
-} from "./EntityAutocomplete";
-import { TwitchGame, concreteDimensions } from "@/utils/twitch";
 import _ from "lodash";
-import { Skeleton } from "@/components/ui/Skeleton";
-import { DbTwitchGame } from "@prisma/client";
-
-type GetAutocompleteItemRenderer = (renderable: {
-  label: string;
-  imageSrc: string;
-}) => Exclude<EntityAutocompleteProps["items"][number]["Render"], ReactNode>;
+import { useGameHandler } from "./useGameHandler";
+import { useUserHandler } from "./useUserHandler";
 
 // TODO fix skeleton
 // TODO fix error handling
@@ -44,154 +25,6 @@ const ScraperPage: React.FC = () => {
   // TODO create dragging
   // TODO create autocomplete and dynamic searching for twitch users/games
 
-  const { data: topGames } = trpc.twitch.games.getTop.useQuery(50, {
-    refetchInterval: undefined,
-    initialData: [],
-  });
-  const [newGames, setNewGames] = useState<DbTwitchGame[]>([]);
-  const allGames = [...topGames, ...newGames];
-
-  const autocompleteIconSize = 32;
-
-  const getAutocompleteItemRenderer: GetAutocompleteItemRenderer =
-    ({ imageSrc, label }) =>
-    ({ value, setValue }) => {
-      const handleSelectItem: MouseEventHandler = (e) => setValue(label);
-
-      const highlightOccurrence = (options: {
-        searchable: string;
-        filter: string;
-      }): ReactNode[] => {
-        const { searchable, filter } = options;
-
-        const nodes: ReactNode[] = [];
-        let undesirableWord = "";
-        let desirableWord = "";
-
-        for (let i = 0; i < searchable.length; i++) {
-          const char = searchable.at(i)!;
-
-          if (
-            char.toLowerCase() ===
-            filter.charAt(desirableWord.length).toLowerCase()
-          ) {
-            desirableWord += char;
-
-            if (desirableWord.toLowerCase() === filter.toLowerCase()) {
-              nodes.push(undesirableWord);
-              nodes.push(
-                <span className="font-bold" key={i}>
-                  {desirableWord}
-                </span>
-              );
-              undesirableWord = "";
-              desirableWord = "";
-            }
-          } else {
-            undesirableWord += desirableWord + char;
-            desirableWord = "";
-          }
-        }
-        nodes.push(undesirableWord);
-        nodes.push(desirableWord);
-
-        return nodes;
-      };
-
-      return (
-        <div
-          key={label}
-          className={cn(
-            "flex items-center gap-2 p-1",
-            "bg-primary-foreground/5 hover:bg-primary-foreground/10 data-[selected=true]:bg-primary-foreground/20 rounded-md cursor-pointer"
-          )}
-          onClick={handleSelectItem}
-          data-selected={value === label}
-        >
-          <Skeleton>
-            <Image
-              width={autocompleteIconSize}
-              height={autocompleteIconSize}
-              alt={label}
-              src={concreteDimensions({
-                url: imageSrc,
-                width: autocompleteIconSize,
-                height: autocompleteIconSize,
-              })}
-              className="rounded-md"
-            />
-          </Skeleton>
-          <span className="whitespace-nowrap overflow-x-scroll scrollbar-hide">
-            {highlightOccurrence({ searchable: label, filter: value })}
-          </span>
-        </div>
-      );
-    };
-
-  const { mutateAsync: fetchExistingGames, isLoading: isLoadingExistingGames } =
-    trpc.twitch.games.list.useMutation({
-      onSuccess: (data) => {
-        const brandNewGames = _.differenceBy(data, allGames, (game) => game.id);
-        setNewGames([...newGames, ...brandNewGames]);
-      },
-      retry: false,
-    });
-
-  const { mutateAsync: fetchNewGame, isLoading: isLoadingNewGame } =
-    trpc.twitch.games.get.useMutation({
-      onSuccess: (data) => {
-        const brandNewGames = _.differenceBy(
-          [data],
-          allGames,
-          (game) => game.id
-        );
-        setNewGames([...newGames, ...brandNewGames]);
-      },
-      retry: false,
-    });
-
-  const { value: game, Autocomplete: GameAutocomplete } = useAutocomplete({
-    inputProps: {
-      label: t("Scraper.querySection.game"),
-      placeholder: "Counter-Strike: Global Offensive",
-      variant: "secondary-inverse",
-      startContent: <FaGamepad />,
-    },
-    items: allGames.map((game) => ({
-      value: game.name,
-      Render: getAutocompleteItemRenderer({
-        label: game.name,
-        imageSrc: game.boxArtUrl,
-      }),
-    })),
-    Loader: (
-      <div
-        className={cn(
-          "flex items-center gap-2 p-1",
-          "bg-primary-foreground/5 rounded-md"
-        )}
-      >
-        <Skeleton width={autocompleteIconSize} height={autocompleteIconSize} />
-        <Skeleton className="w-1/2 h-4" />
-      </div>
-    ),
-    onChange: async (value) => {
-      const count = filterItems(
-        allGames.map((game) => ({ value: game.name })),
-        value
-      ).length;
-
-      if (count === 0) {
-        return await fetchNewGame({ name: value });
-      }
-      if (count < 5) {
-        return await fetchExistingGames(value);
-      }
-    },
-    isLoading: isLoadingNewGame,
-    debounceMillis: 1000,
-  });
-
   // const { value: user, Autocomplete: UserAutocomplete } = useAutocomplete({
   //   inputProps: {
   //     label: t("Scraper.querySection.user"),
@@ -201,6 +34,9 @@ const ScraperPage: React.FC = () => {
   //     startContent: <FaUser />,
   //   },
   // });
+
+  const { game, GameAutocomplete } = useGameHandler();
+  const { user, UserAutocomplete } = useUserHandler();
 
   const { value: clipId, Input: ClipIdInput } = useInput({
     label: t("Scraper.querySection.clipId"),
@@ -215,20 +51,18 @@ const ScraperPage: React.FC = () => {
     refetch,
   } = trpc.twitch.clips.list.useQuery(
     {
-      // user,
+      user,
       game,
       clipId,
     },
-    {
-      enabled: false,
-    }
+    { enabled: false }
   );
 
   const QuerySection = (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
         <h2>{t("Scraper.querySection.primary")}</h2>
-        {/* {UserAutocomplete} */}
+        {UserAutocomplete}
         {GameAutocomplete}
         {/* {ClipIdInput} */}
       </div>
@@ -238,7 +72,7 @@ const ScraperPage: React.FC = () => {
       <div className="flex flex-col gap-2"></div>
       <Button
         isLoading={isFetchingClips}
-        variant="primary-inverse"
+        variant="tonal-inverse"
         onClick={() => refetch()}
       >
         {isFetchingClips

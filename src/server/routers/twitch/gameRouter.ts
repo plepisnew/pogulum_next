@@ -1,13 +1,6 @@
-import {
-  TwitchApiGame,
-  TwitchEndpoints,
-  didFail,
-  unwrapGames,
-} from "@/utils/twitch";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { twitchProcedure, router } from "../../trpc";
-import { twitchAxios } from "@/utils/twitch";
+import { twitchProcedure, router } from "@/server/trpc";
 import { getGame } from "./shared";
 import { gameInputSchema } from "./schemas";
 
@@ -28,7 +21,7 @@ export const gameRouter = router({
     }),
   list: twitchProcedure
     .input(z.string())
-    .mutation(async ({ ctx: { accessToken, prisma }, input: name }) => {
+    .mutation(async ({ ctx: { prisma }, input: name }) => {
       const games = await prisma.dbTwitchGame.findMany({
         where: { name: { contains: name } },
       });
@@ -37,25 +30,9 @@ export const gameRouter = router({
     }),
   getTop: twitchProcedure
     .input(z.number())
-    .query(async ({ ctx: { accessToken, prisma }, input: topCount }) => {
-      // const response = await twitchAxios<TwitchApiGame>({
-      //   endpoint: TwitchEndpoints.TOP_GAMES,
-      //   accessToken,
-      //   params: { first: topCount },
-      // });
-
-      // if (didFail(response)) {
-      //   throw new TRPCError({
-      //     code: "BAD_REQUEST",
-      //     message: response.message,
-      //     cause: response.error,
-      //   });
-      // }
-
-      // return unwrapGames(response).games;
-
+    .query(async ({ ctx: { prisma }, input: count }) => {
       const games = await prisma.dbTwitchGame.findMany({
-        take: topCount,
+        take: count,
         orderBy: { popularity: "desc" },
       });
 

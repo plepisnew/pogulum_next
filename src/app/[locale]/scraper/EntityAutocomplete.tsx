@@ -1,28 +1,14 @@
 "use client";
 
 import { Input, InputProps } from "@/components/ui/Input";
-import { trpc } from "@/utils/trpc";
 import { ArrayMap, Setter } from "@/utils/types";
-import { cn, popover } from "@nextui-org/react";
-import { useQuery } from "@tanstack/react-query";
+import { cn } from "@nextui-org/react";
 import _ from "lodash";
-import React, {
-  ChangeEventHandler,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { ChangeEventHandler, ReactNode, useRef, useState } from "react";
+import { filterItems } from "./shared";
 
-type AutocompleteItem = {
-  /**
-   *  Compared against by the controlled input value
-   */
+export type AutocompleteItem = {
   value: string;
-  /**
-   * What is rendered. Can be either a node or a function, which accepts the rendering context for more complex rendering
-   */
   Render:
     | ReactNode
     | ((renderContext: {
@@ -32,29 +18,10 @@ type AutocompleteItem = {
 };
 
 export type EntityAutocompleteProps = {
-  /**
-   * Items that the autocomplete displays
-   */
   items: AutocompleteItem[];
-  /**
-   * Options for populating the autocomplete items
-   */
-  /**
-   * Displayed when `isLoading` is true (after all autocomplete items). This happens while `getItems` is being invoked
-   */
   Loader: ReactNode;
-
-  /**
-   * Whether new items are being fetched
-   */
   isLoading: boolean;
-  /**
-   * Invoked when `itemThreshold` is reached
-   */
   onChange: (value: string) => void;
-  /**
-   * Number of milliseconds after input, which should trigger `onReachThreshold`
-   */
   debounceMillis: number;
   baseClassName?: string;
   inputContainerClassName?: string;
@@ -66,17 +33,6 @@ export type UseAutocomplete = (
 ) => {
   value: string;
   Autocomplete: JSX.Element;
-};
-
-export const filterItems = <TItem extends { value: AutocompleteItem["value"] }>(
-  items: TItem[],
-  value: string
-) => {
-  return (
-    items.filter((item) =>
-      item.value.toLocaleLowerCase().includes(value.toLocaleLowerCase())
-    ) || _.isEmpty(value)
-  );
 };
 
 export const useAutocomplete: UseAutocomplete = ({
@@ -96,6 +52,7 @@ export const useAutocomplete: UseAutocomplete = ({
   const filteredItems = filterItems(items, value);
   const shownItems = _.sortBy(filteredItems, (item) => item.value);
 
+  const inputContainerRef = useRef<HTMLDivElement>(null);
   const timeoutIdRef = useRef<NodeJS.Timeout>();
 
   const handleChangeValue: ChangeEventHandler<HTMLInputElement> = async (e) => {
@@ -107,15 +64,13 @@ export const useAutocomplete: UseAutocomplete = ({
     timeoutIdRef.current = setTimeout(() => onChange(newValue), debounceMillis);
   };
 
-  const inputContainerRef = useRef<HTMLDivElement>(null);
-
   const InputElement = (
     <Input
       value={value}
       onChange={handleChangeValue}
-      {...inputProps}
       onFocus={(e) => setInputFocused(true)}
       onBlur={(e) => setInputFocused(false)}
+      {...inputProps}
     />
   );
 
@@ -133,7 +88,9 @@ export const useAutocomplete: UseAutocomplete = ({
 
   // TODO make this accessible and fix quick-clicking weird behavior (input immediately loses focus_)
   const Autocomplete = (
-    <div className={cn("autocomplete-base", "relative h-max", baseClassName)}>
+    <div
+      className={cn("autocomplete-base", "relative h-[200px]", baseClassName)}
+    >
       <div
         ref={inputContainerRef}
         className={cn(
@@ -160,6 +117,7 @@ export const useAutocomplete: UseAutocomplete = ({
           "border-2 border-primary-foreground",
           "dark:border dark:border-primary-boundary",
           "bg-primary-dark/80 text-primary-foreground backdrop-blur-md",
+          !inputFocused && "pointer-events-none",
           shownItems.length === 0 && !isLoading && "hidden",
           popoverClassName
         )}

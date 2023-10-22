@@ -21,11 +21,20 @@ export const userRouter = router({
     }),
   list: twitchProcedure
     .input(z.string())
-    .query(async ({ ctx: { accessToken, prisma }, input: login }) => {
+    .mutation(async ({ ctx: { prisma }, input: login }) => {
       const users = await prisma.dbTwitchUser.findMany({
         where: { login: { contains: login } },
       });
 
       return users;
+    }),
+  getTop: twitchProcedure
+    .input(z.number())
+    .query(async ({ ctx: { prisma }, input: count }) => {
+      const topUsers = await prisma.dbTwitchUser.findMany({
+        take: count,
+        orderBy: { popularity: "desc" },
+      });
+      return topUsers;
     }),
 });

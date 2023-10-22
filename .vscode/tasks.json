@@ -34,8 +34,7 @@
       "type": "process",
       "command": "bun",
       "args": [
-        "run",
-        "./src/i18n/validate.ts"
+        "i18n:verify"
       ],
       "icon": {
         "color": "terminal.ansiWhite",

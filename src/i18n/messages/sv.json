@@ -7,5 +7,25 @@
   "Footer": {
     "developer": "Utvecklare",
     "reference": "Twitch API Referens"
+  },
+  "Scraper": {
+    "querySection": {
+      "title": "1. Välj filter",
+      "primary": "Primära filter",
+      "user": "Twitch-användare",
+      "game": "Twitch-spel eller kategori",
+      "clipId": "Klipp-ID",
+      "clipIdHelper": "Klipp-ID visas i URL:en för Twitch-klippet. Detta fält är valfritt.",
+      "secondary": "Sekundära filter",
+      "fetch": "Hämta klipp",
+      "fetching": "Hämtar klipp"
+    },
+    "clipSection": {
+      "title": "2. Hitta klipp",
+      "searchPlaceholder": "Filtrera efter titel"
+    },
+    "bagSection": {
+      "title": "3. Översikt"
+    }
   }
 }

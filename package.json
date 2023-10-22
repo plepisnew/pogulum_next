@@ -7,6 +7,7 @@
     "prisma:generate": "prisma generate --schema ./src/prisma/schema.prisma",
     "prisma:studio": "prisma studio --schema ./src/prisma/schema.prisma",
     "prisma:push": "prisma db push --schema ./src/prisma/schema.prisma",
+    "i18n:verify": "bun ./src/i18n/validate.ts",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

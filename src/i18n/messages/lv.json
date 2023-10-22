@@ -7,5 +7,25 @@
   "Footer": {
     "developer": "Izstrādātājs",
     "reference": "Twitch API Reference"
+  },
+  "Scraper": {
+    "querySection": {
+      "title": "1. Izvēlies filtrus",
+      "primary": "Galvenie filtri",
+      "user": "Twitch Lietotājs",
+      "game": "Twitch Spēle vai Kategorija",
+      "clipId": "Klipa ID",
+      "clipIdHelper": "Klipa ID parādās klipa URL. Šis lauks nav obligāts.",
+      "secondary": "Sekundārie filtri",
+      "fetch": "Meklēt klipus",
+      "fetching": "Meklē klipus"
+    },
+    "clipSection": {
+      "title": "2. Izvēlies klipus",
+      "searchPlaceholder": "Filtrē pēc nosaukuma"
+    },
+    "bagSection": {
+      "title": "3. Pārskats"
+    }
   }
 }
