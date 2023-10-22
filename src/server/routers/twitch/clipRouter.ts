@@ -15,7 +15,7 @@ export const clipRouter = router({
     .input(clipInputSchema.and(cursorSchema))
     .query(async ({ ctx: { accessToken, prisma }, input }) => {
       // If Clip ID specified, just use that
-      if ("clipId" in input) {
+      if (input.clipId) {
         return await getClipsById({
           id: input.clipId,
           accessToken,
@@ -23,21 +23,18 @@ export const clipRouter = router({
       }
 
       // If Game ID specified, use that. If not, find it by name
-      const gameId =
-        "game" in input
-          ? Number(input.game)
-            ? input.game
-            : (await getGame({ accessToken, prisma, name: input.game }))
-                ?.twitchId
-          : undefined;
+      const gameId = input.game
+        ? Number(input.game)
+          ? input.game
+          : (await getGame({ accessToken, prisma, name: input.game }))?.twitchId
+        : undefined;
 
-      const userId =
-        "user" in input
-          ? Number(input.user)
-            ? input.user
-            : (await getUser({ accessToken, prisma, login: input.user }))
-                ?.twitchId
-          : undefined;
+      const userId = input.user
+        ? Number(input.user)
+          ? input.user
+          : (await getUser({ accessToken, prisma, login: input.user }))
+              ?.twitchId
+        : undefined;
 
       if (!gameId && !userId) {
         throw new TRPCError({

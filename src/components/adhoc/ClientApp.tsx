@@ -19,7 +19,7 @@ export const ClientApp: NextComponentType<
       <ThemeProvider>
         <DndContext>
           <Header />
-          <PageContainer>{children}</PageContainer>
+          {children}
           <Footer />
         </DndContext>
       </ThemeProvider>

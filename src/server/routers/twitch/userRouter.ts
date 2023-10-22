@@ -35,6 +35,7 @@ export const userRouter = router({
         take: count,
         orderBy: { popularity: "desc" },
       });
+      console.log("fetching top users");
       return topUsers;
     }),
 });

@@ -88,14 +88,12 @@ export const useAutocomplete: UseAutocomplete = ({
 
   // TODO make this accessible and fix quick-clicking weird behavior (input immediately loses focus_)
   const Autocomplete = (
-    <div
-      className={cn("autocomplete-base", "relative h-[200px]", baseClassName)}
-    >
+    <div className={cn("autocomplete-base", "relative", baseClassName)}>
       <div
         ref={inputContainerRef}
         className={cn(
           "input-container",
-          "absolute w-full z-20",
+          "w-full",
           "bg-primary-dark rounded-xl",
           inputContainerClassName
         )}
@@ -106,15 +104,13 @@ export const useAutocomplete: UseAutocomplete = ({
         style={{
           paddingTop: inputHalfHeight,
           opacity: inputFocused ? 1 : 0,
-          transform: inputFocused
-            ? `translateY(${inputHalfHeight})`
-            : undefined,
+          top: inputFocused ? inputHalfHeight : 0,
         }}
         className={cn(
-          "absolute w-full z-10",
+          "absolute w-full -z-10",
           "flex flex-col p-2 gap-2",
           "rounded-xl transition-all overflow-y-scroll scrollbar-hide max-h-80",
-          "border-2 border-primary-foreground",
+          "border-1 border-primary-foreground",
           "dark:border dark:border-primary-boundary",
           "bg-primary-dark/80 text-primary-foreground backdrop-blur-md",
           !inputFocused && "pointer-events-none",

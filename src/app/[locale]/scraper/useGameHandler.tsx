@@ -12,12 +12,14 @@ import {
 } from "./shared";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 
 export const useGameHandler = () => {
   const t = useTranslations();
 
   const { data: topGames } = trpc.twitch.games.getTop.useQuery(50, {
     initialData: [],
+    cacheTime: 0,
   });
   const [newGames, setNewGames] = useState<DbTwitchGame[]>([]);
   const allGames = [...topGames, ...newGames];
@@ -82,6 +84,7 @@ export const useGameHandler = () => {
     },
     isLoading: isLoadingNewGame,
     debounceMillis: 1000,
+    baseClassName: "z-20",
   });
 
   return { game, GameAutocomplete };

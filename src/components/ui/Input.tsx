@@ -38,7 +38,7 @@ export type InputProps = {
 // * `data-focus-visible`: When the input is being focused with the keyboard. Based on useFocusRing
 // * `data-disabled`: When the input is disabled. Based on isDisabled prop.
 
-const className = "font-";
+const className = "border-";
 
 const propMapper: Record<
   NonNullable<InputProps["variant"]>,

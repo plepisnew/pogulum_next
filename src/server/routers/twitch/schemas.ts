@@ -11,15 +11,11 @@ export const gameInputSchema = z
   .object({ id: z.string() })
   .or(z.object({ name: z.string() }));
 
-// export const clipInputSchema = z
-//   .object({ game: z.string().optional() })
-//   .and(z.object({ user: z.string().optional() }))
-//   .and(z.object({ clipId: z.string().optional() }));
-
-export const clipInputSchema = z
-  .object({ clipId: z.string() })
-  .or(z.object({ game: z.string() }))
-  .or(z.object({ user: z.string() }));
+export const clipInputSchema = z.object({
+  clipId: z.string().optional(),
+  game: z.string().optional(),
+  user: z.string().optional(),
+});
 
 export const clipIdInputSchema = z.object({
   id: z.string(),

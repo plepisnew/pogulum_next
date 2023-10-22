@@ -18,6 +18,7 @@ export const useUserHandler = () => {
 
   const { data: topUsers } = trpc.twitch.users.getTop.useQuery(50, {
     initialData: [],
+    cacheTime: 0,
   });
 
   const [newUsers, setNewUsers] = useState<DbTwitchUser[]>([]);
@@ -83,8 +84,6 @@ export const useUserHandler = () => {
     },
     isLoading: isLoadingNewUser,
     debounceMillis: 1000,
-    // popoverClassName: "z-30",
-    // inputContainerClassName: "z-30",
     baseClassName: "z-30",
   });
 

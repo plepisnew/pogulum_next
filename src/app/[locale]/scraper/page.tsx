@@ -13,6 +13,7 @@ import { ClipCard } from "./ClipCard";
 import _ from "lodash";
 import { useGameHandler } from "./useGameHandler";
 import { useUserHandler } from "./useUserHandler";
+import { PageContainer } from "@/components/adhoc/PageLayout";
 
 // TODO fix skeleton
 // TODO fix error handling
@@ -25,24 +26,15 @@ const ScraperPage: React.FC = () => {
   // TODO create dragging
   // TODO create autocomplete and dynamic searching for twitch users/games
 
-  // const { value: user, Autocomplete: UserAutocomplete } = useAutocomplete({
-  //   inputProps: {
-  //     label: t("Scraper.querySection.user"),
-  //     placeholder: "Anomaly",
-  //     variant: "secondary-inverse",
-  //     className: "text-white",
-  //     startContent: <FaUser />,
-  //   },
-  // });
-
   const { game, GameAutocomplete } = useGameHandler();
   const { user, UserAutocomplete } = useUserHandler();
 
   const { value: clipId, Input: ClipIdInput } = useInput({
     label: t("Scraper.querySection.clipId"),
-    placeholder: "Anomaly",
+    placeholder: "FaithfulLaconicPotHoneyBadger-7YGA...",
     variant: "secondary-inverse",
     startContent: <FaCamera />,
+    disabled: Boolean(user) || Boolean(game),
   });
 
   const {
@@ -50,12 +42,8 @@ const ScraperPage: React.FC = () => {
     isFetching: isFetchingClips,
     refetch,
   } = trpc.twitch.clips.list.useQuery(
-    {
-      user,
-      game,
-      clipId,
-    },
-    { enabled: false }
+    { user, game, clipId },
+    { enabled: false, keepPreviousData: true }
   );
 
   const QuerySection = (
@@ -64,12 +52,12 @@ const ScraperPage: React.FC = () => {
         <h2>{t("Scraper.querySection.primary")}</h2>
         {UserAutocomplete}
         {GameAutocomplete}
-        {/* {ClipIdInput} */}
+        {ClipIdInput}
       </div>
       <div className="flex flex-col gap-2">
         <h2>{t("Scraper.querySection.secondary")}</h2>
+        <div>secondary</div>
       </div>
-      <div className="flex flex-col gap-2"></div>
       <Button
         isLoading={isFetchingClips}
         variant="tonal-inverse"
@@ -90,11 +78,11 @@ const ScraperPage: React.FC = () => {
   });
 
   const ClipSection = (
-    <div className="flex flex-col gap-2 h-full">
+    <div className="flex flex-col gap-2">
       {TitleFilterInput}
       <div
         className={cn(
-          "p-2 flex-1 grid grid-cols-3 gap-x-2 gap-y-2 items-start",
+          "p-2 flex-1 grid grid-cols-3 gap-x-2 gap-y-2 grid-rows-3 items-start",
           "border-2 dark:border border-primary-foreground dark:border-primary-boundary rounded-lg overflow-y-scroll scrollbar-hide"
         )}
       >
@@ -127,23 +115,25 @@ const ScraperPage: React.FC = () => {
   ];
 
   return (
-    <div className={cn("flex gap-4 flex-col lg:flex-row")}>
-      {Sections.map(({ Content, span, titleKey }) => (
-        <div
-          key={titleKey}
-          className={cn(
-            "text-primary-foreground rounded-md dark:border dark:border-primary-boundary",
-            "flex flex-col"
-          )}
-          style={{ flex: span }}
-        >
-          <h1 className="bg-primary-dark px-3 py-2 font-medium dark:border-b dark:border-b-primary-boundary rounded-t-md">
-            {t(titleKey)}
-          </h1>
-          <div className="bg-primary p-3 h-full rounded-b-md">{Content}</div>
-        </div>
-      ))}
-    </div>
+    <PageContainer fixed>
+      <div className={cn("flex gap-4 flex-col lg:flex-row h-full")}>
+        {Sections.map(({ Content, span, titleKey }) => (
+          <div
+            key={titleKey}
+            className={cn(
+              "text-primary-foreground rounded-md dark:border dark:border-primary-boundary",
+              "flex flex-col"
+            )}
+            style={{ flex: span }}
+          >
+            <h1 className="bg-primary-dark px-3 py-2 font-medium dark:border-b dark:border-b-primary-boundary rounded-t-md">
+              {t(titleKey)}
+            </h1>
+            <div className="bg-primary p-3 h-full rounded-b-md">{Content}</div>
+          </div>
+        ))}
+      </div>
+    </PageContainer>
   );
 };
 
