@@ -51,38 +51,43 @@
         "start"
       ],
       "icon": {
-        "color": "terminal.ansiCyan",
+        "color": "terminal.ansiGreen",
         "id": "server"
+      }
+    },
+    {
+      "label": "Generate Prisma client",
+      "type": "process",
+      "command": "bun",
+      "args": [
+        "prisma:generate",
+      ],
+      "icon": {
+        "color": "terminal.ansiRed",
+        "id": "database"
       }
     },
     {
       "label": "Start Prisma Studio",
       "type": "process",
-      "command": "bunx",
+      "command": "bun",
       "args": [
-        "prisma",
-        "studio",
-        "--schema",
-        "./src/prisma/schema.prisma"
+        "prisma:studio",
       ],
       "icon": {
-        "color": "terminal.ansiWhite",
+        "color": "terminal.ansiRed",
         "id": "database"
       }
     },
     {
       "label": "Apply Prisma schema changes",
       "type": "process",
-      "command": "bunx",
+      "command": "bun",
       "args": [
-        "prisma",
-        "db",
-        "push",
-        "--schema",
-        "./src/prisma/schema.prisma"
+        "prisma:push",
       ],
       "icon": {
-        "color": "terminal.ansiWhite",
+        "color": "terminal.ansiRed",
         "id": "database"
       }
     }
