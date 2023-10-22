@@ -15,23 +15,9 @@ export const ClipCard: React.FC<ClipCardProps> = ({ clip }) => {
   // TODO add favorite feature for logged in users
   // TODO add skeleton
 
-  const { setNodeRef, attributes, listeners, transform } = useDraggable({
-    id: clip.id,
-  });
-  console.log({ transform });
   return (
-    <div
-      ref={setNodeRef}
-      {...listeners}
-      {...attributes}
-      style={{
-        transform: `translate3d(${transform?.x}, ${transform?.y}, 0)`,
-        opacity: transform ? 0.6 : 1,
-        zIndex: 50,
-      }}
-      className="relative dark:border dark:border-primary-boundary rounded-md"
-    >
-      <span className="bg-primary-dark px-2 py-1 block overflow-x-scroll break-words whitespace-nowrap scrollbar-none rounded-t-md">
+    <div className="relative dark:border dark:border-primary-boundary rounded-md">
+      <span className="bg-primary-dark px-2 py-1 block overflow-x-scroll break-words whitespace-nowrap scrollbar-hide rounded-t-md">
         {clip.title}
       </span>
       <a

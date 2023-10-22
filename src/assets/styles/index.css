@@ -2,14 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.scrollbar-none::webkit-scrollbar {
-  display: none;
-}
-
-.scrollbar-none {
-  scrollbar-width: none;
-}
-
 body {
   @apply bg-body-background;
   @apply text-body-foreground;

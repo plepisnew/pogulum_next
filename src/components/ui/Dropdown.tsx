@@ -30,7 +30,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
     <NextUIDropdown
       classNames={{
         base: "bg-primary-dark text-primary-foreground border border-primary-foreground dark:border-primary-boundary",
-        backdrop: "bg-red-500",
+        // backdrop: "bg-red-500",
         ...classNames,
       }}
       {...props}
@@ -59,4 +59,10 @@ export const Dropdown: React.FC<DropdownProps> = ({
       </NextUIDropdownMenu>
     </NextUIDropdown>
   );
+};
+
+export {
+  NextUIDropdownMenu as DropdownMenu,
+  NextUIDropdownTrigger as DropdownTrigger,
+  NextUIDropdownItem as DropdownItem,
 };

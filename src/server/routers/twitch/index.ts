@@ -1,4 +1,4 @@
-import { router } from "../trpc";
+import { router } from "../../trpc";
 import { clipRouter } from "./clipRouter";
 import { gameRouter } from "./gameRouter";
 import { userRouter } from "./userRouter";

@@ -12,7 +12,8 @@
     "@dnd-kit/core": "^6.0.8",
     "@dnd-kit/sortable": "^7.0.2",
     "@nextui-org/react": "^2.1.13",
-    "@t3-oss/env-nextjs": "^0.6.0",
+    "@prisma/client": "5.4.2",
+    "@t3-oss/env-nextjs": "^0.7.1",
     "@tanstack/react-query": "^4.32.6",
     "@trpc/client": "^10.37.1",
     "@trpc/next": "^10.37.1",
@@ -24,7 +25,8 @@
     "eslint-config-next": "13.4.16",
     "framer-motion": "^10.16.4",
     "lodash": "^4.17.21",
-    "next": "13.4.16",
+    "next": "latest",
+    "next-axiom": "^1.0.0",
     "next-intl": "^2.20.2",
     "next-themes": "^0.2.1",
     "postcss": "8.4.27",
@@ -37,10 +39,12 @@
     "zustand": "^4.4.1"
   },
   "devDependencies": {
+    "@types/eslint": "^8.44.6",
     "@types/lodash": "^4.14.199",
     "@types/node": "20.5.0",
     "@types/react": "18.2.20",
     "@types/react-dom": "18.2.7",
-    "@types/react-icons": "^3.0.0"
+    "@types/react-icons": "^3.0.0",
+    "prisma": "5.4.2"
   }
 }

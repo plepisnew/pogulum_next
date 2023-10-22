@@ -35,12 +35,11 @@ export type TwitchApiUser = {
   id: string;
   login: string;
   display_name: string;
-  type: string;
-  broadcaster_type: string;
+  type: "admin" | "global_mod" | "staff" | "";
+  broadcaster_type: "affiliate" | "partner" | "";
   description: string;
   profile_image_url: string;
   offline_image_url: string;
-  view_count: number;
   created_at: string;
 };
 
@@ -48,12 +47,11 @@ export type TwitchUser = {
   id: string;
   login: string;
   displayName: string;
-  type: string;
-  broadcasterType: string;
+  type: "admin" | "global_mod" | "staff" | "";
+  broadcasterType: "affiliate" | "partner" | "";
   description: string;
   profileImageUrl: string;
   offlineImageUrl: string;
-  viewCount: number;
   createdAt: string;
 };
 
@@ -125,7 +123,6 @@ export const adaptUser = (twitchApiUser: TwitchApiUser): TwitchUser => ({
   description: twitchApiUser.description,
   profileImageUrl: twitchApiUser.profile_image_url,
   offlineImageUrl: twitchApiUser.offline_image_url,
-  viewCount: twitchApiUser.view_count,
   createdAt: twitchApiUser.created_at,
 });
 
@@ -204,7 +201,7 @@ export const twitchAxios = async <TEntity extends TwitchApiEntity>({
     ...config,
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      "Client-Id": env.CLIENT_ID,
+      "Client-Id": env.NEXT_PUBLIC_CLIENT_ID,
       ...config.headers,
     },
     params: {

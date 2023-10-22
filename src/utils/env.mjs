@@ -3,14 +3,23 @@ import { z } from "zod";
 
 export const env = createEnv({
   server: {
-    CLIENT_ID: z.string(),
     CLIENT_SECRET: z.string(),
-    ACCESS_TOKEN: z.string(),
   },
-  client: {},
+  client: {
+    NEXT_PUBLIC_CLIENT_ID: z.string(),
+    NEXT_PUBLIC_TOKEN_ENDPOINT: z.string(),
+    NEXT_PUBLIC_API_ENDPOINT: z.string(),
+    NEXT_PUBLIC_GAMES_PATH: z.string(),
+    NEXT_PUBLIC_USERS_PATH: z.string(),
+    NEXT_PUBLIC_CLIPS_PATH: z.string(),
+  },
   runtimeEnv: {
-    CLIENT_ID: process.env.CLIENT_ID,
     CLIENT_SECRET: process.env.CLIENT_SECRET,
-    ACCESS_TOKEN: process.env.ACCESS_TOKEN,
+    NEXT_PUBLIC_CLIENT_ID: process.env.NEXT_PUBLIC_CLIENT_ID,
+    NEXT_PUBLIC_TOKEN_ENDPOINT: process.env.NEXT_PUBLIC_TOKEN_ENDPOINT,
+    NEXT_PUBLIC_API_ENDPOINT: process.env.NEXT_PUBLIC_API_ENDPOINT,
+    NEXT_PUBLIC_GAMES_PATH: process.env.NEXT_PUBLIC_GAMES_PATH,
+    NEXT_PUBLIC_USERS_PATH: process.env.NEXT_PUBLIC_USERS_PATH,
+    NEXT_PUBLIC_CLIPS_PATH: process.env.NEXT_PUBLIC_CLIPS_PATH,
   },
 });

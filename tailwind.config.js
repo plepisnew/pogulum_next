@@ -56,6 +56,7 @@ module.exports = {
               dark: colors.black,
               foreground: colors.white,
               boundary: colors.zinc[700],
+              "boundary-light": colors.zinc[600],
             },
             cta: {
               light: colors.zinc[100],

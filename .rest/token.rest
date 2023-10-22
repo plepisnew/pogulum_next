@@ -1,0 +1,14 @@
+@tokenUrl = https://id.twitch.tv/oauth2/token
+
+# Get Access Token using Client Credentials flow
+# @name tokenAPI
+POST {{tokenUrl}} HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+client_id={{CLIENT_ID}}
+&client_secret={{CLIENT_SECRET}}
+&grant_type=client_credentials
+
+###
+
+@accessToken = {{tokenAPI.response.body.access_token}}

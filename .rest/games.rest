@@ -1,12 +1,9 @@
-@baseUrl = https://api.twitch.tv/helix
-@gamesPath = games
-
 ### Get Twitch game "Minecraft"
-GET {{baseUrl}}/{{gamesPath}}?name=Minecraft
-Client-Id: {{$dotenv CLIENT_ID}}
-Authorization: Bearer {{$dotenv ACCESS_TOKEN}}
+GET {{API_ENDPOINT}}/{{GAMES_PATH}}?name=Minecraft
+Client-Id: {{CLIENT_ID}}
+Authorization: Bearer {{ACCESS_TOKEN}}
 
 ### Get Top games
-GET {{baseUrl}}/{{gamesPath}}/top?first=30
-Client-Id: {{$dotenv CLIENT_ID}}
-Authorization: Bearer {{$dotenv ACCESS_TOKEN}}
+GET {{API_ENDPOINT}}/{{GAMES_PATH}}/top?first=30
+Client-Id: {{CLIENT_ID}}
+Authorization: Bearer {{ACCESS_TOKEN}}

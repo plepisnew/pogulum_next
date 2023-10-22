@@ -1,14 +1,22 @@
-import * as React from "react";
-
 import {
   Input as NextInput,
   InputProps as NextInputProps,
 } from "@nextui-org/input";
 import { cn } from "@nextui-org/react";
+import React, { ReactNode, forwardRef } from "react";
 
 export type InputProps = {
   variant?: "primary" | "secondary" | "primary-inverse" | "secondary-inverse";
-} & Omit<NextInputProps, "variant" | "classNames" | "className">;
+} & (
+  | {
+      isClearable: true;
+    }
+  | {
+      isClearable?: false | undefined;
+      endContent?: ReactNode;
+    }
+) &
+  Omit<NextInputProps, "variant" | "classNames" | "endContent">;
 
 // * `base`: Input wrapper, it handles alignment, placement, and general appearance.
 // * `label`: Label of the input, it is the one that is displayed above, inside or left of the input.
@@ -60,7 +68,7 @@ const propMapper: Record<
       label:
         "text-cta-dark font-semibold group-data-[hover=true]:text-cta-dark group-data-[focus=true]:text-cta-dark",
       inputWrapper:
-        "bg-transparent border-cta group-data-[hover=true]:border-cta-dark group-data-[focus=true]:border-cta-dark group-data-[hover=true]:bg-cta/5 group-data-[focus=true]:bg-cta/5",
+        "bg-transparent border-cta group-data-[hover=true]:border-cta-dark group-data-[focus=true]:border-cta-dark dark:border-primary-boundary dark:group-data-[hover=true]:border-primary-boundary-light dark:group-data-[focus=true]:border-primary-boundary-light group-data-[hover=true]:bg-cta/5 group-data-[focus=true]:bg-cta/5",
       input: "placeholder:text-cta-dark/50",
       clearButton: "text-cta-dark",
       description: "",
@@ -87,7 +95,7 @@ const propMapper: Record<
       label:
         "text-cta-foreground font-semibold group-data-[hover=true]:text-cta-foreground group-data-[focus=true]:text-cta-foreground dark:text-cta dark:group-data-[hover=true]:text-cta dark:group-data-[focus=true]:text-cta",
       inputWrapper:
-        "bg-transparent border-cta-foreground group-data-[hover=true]:bg-cta-foreground/5 group-data-[focus=true]:bg-cta-foreground/5 group-data-[hover=true]:border-cta-foreground group-data-[focus=true]:border-cta-foreground dark:border-cta dark:text-cta dark:group-data-[focus=true]:bg-cta/5 dark:group-data-[hover=true]:border-cta dark:group-data-[focus=true]:border-cta dark:group-data-[hover=true]:bg-cta/5 dark:group-data-[focus=true]:bg-cta/5",
+        "bg-transparent border-cta-foreground group-data-[hover=true]:bg-cta-foreground/5 group-data-[focus=true]:bg-cta-foreground/5 group-data-[hover=true]:border-cta-foreground group-data-[focus=true]:border-cta-foreground dark:border-primary-boundary dark:text-cta dark:group-data-[focus=true]:bg-cta/5 dark:group-data-[hover=true]:border-primary-boundary-light dark:group-data-[focus=true]:border-primary-boundary dark:group-data-[hover=true]:bg-cta/5 dark:group-data-[focus=true]:bg-cta/5",
       input:
         "placeholder:text-cta-foreground-dark/50 dark:placeholder:text-cta/50",
       clearButton: "text-cta-foreground-dark dark:text-cta",
@@ -97,13 +105,19 @@ const propMapper: Record<
   },
 };
 
-export const Input: React.FC<InputProps> = ({
-  variant = "primary",
-  ...props
-}) => {
-  const { classNames, variant: mappedVariant } = propMapper[variant];
+export const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ variant = "primary", ...props }, ref) => {
+    const { classNames, variant: mappedVariant } = propMapper[variant];
 
-  return (
-    <NextInput variant={mappedVariant} classNames={classNames} {...props} />
-  );
-};
+    return (
+      <NextInput
+        ref={ref}
+        variant={mappedVariant}
+        classNames={classNames}
+        {...props}
+      />
+    );
+  }
+);
+
+Input.displayName = "Input";

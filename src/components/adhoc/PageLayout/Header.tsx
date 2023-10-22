@@ -85,7 +85,7 @@ export const Header: React.FC = () => {
   return (
     <header
       className={cn(
-        "fixed w-full flex items-center z-10",
+        "fixed w-full flex items-center z-50",
         "from-primary to-primary-dark bg-gradient-to-br text-primary-foreground",
         "shadow-md shadow-primary/20",
         "dark:shadow-none dark:border-b dark:border-b-primary-boundary"

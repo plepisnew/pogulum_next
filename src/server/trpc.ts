@@ -1,6 +1,8 @@
-import { TRPCError, initTRPC } from "@trpc/server";
+import { TRPCError, initTRPC, inferAsyncReturnType } from "@trpc/server";
 import { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
 import { env } from "@/utils/env.mjs";
+import prisma from "@/prisma/instance";
+import { getToken } from "./getToken";
 
 export const createContext = async ({
   req,
@@ -8,49 +10,20 @@ export const createContext = async ({
 }: FetchCreateContextFnOptions) => ({
   req,
   resHeaders,
+  prisma,
 });
+
+export type TRPCContext = inferAsyncReturnType<typeof createContext>;
+
+export type TRPCContextProtected = TRPCContext & { accessToken: string };
 
 const t = initTRPC.context<typeof createContext>().create();
 
-const authenticationMiddleware = t.middleware(({ next, ctx }) => {
-  const cookies = ctx.req.headers.get("cookie")?.split("; ");
-  const accessToken = cookies
-    ?.map((cookie) => {
-      const [name, value] = cookie.split("=");
-      return { name, value };
-    })
-    .find(({ name }) => name === "at")?.value;
-
-  if (accessToken === undefined) {
-    throw new TRPCError({ code: "UNAUTHORIZED" });
-  }
-
-  ctx.resHeaders.append("Authorization", `Bearer ${accessToken}`);
-
+const appendAccessTokenMiddleware = t.middleware(async ({ next, ctx }) => {
   return next({
     ctx: {
       ...ctx,
-      accessToken,
-    },
-  });
-});
-
-const appendPublicTokenMiddleware = t.middleware(({ next, ctx }) => {
-  const cookies = ctx.req.headers.get("cookie")?.split("; ");
-  const accessToken =
-    cookies
-      ?.map((cookie) => {
-        const [name, value] = cookie.split("=");
-        return { name, value };
-      })
-      .find(({ name }) => name === "at")?.value || env.ACCESS_TOKEN;
-
-  ctx.resHeaders.append("Authorization", `Bearer ${accessToken}`);
-
-  return next({
-    ctx: {
-      ...ctx,
-      accessToken,
+      accessToken: await getToken(),
     },
   });
 });
@@ -61,6 +34,4 @@ export const middleware = t.middleware;
 
 export const publicProcedure = t.procedure;
 
-export const protectedProcedure = t.procedure.use(authenticationMiddleware);
-
-export const partialProcedure = t.procedure.use(appendPublicTokenMiddleware);
+export const twitchProcedure = t.procedure.use(appendAccessTokenMiddleware);

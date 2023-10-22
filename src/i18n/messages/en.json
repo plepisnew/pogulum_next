@@ -15,6 +15,7 @@
       "user": "Twitch User",
       "game": "Twitch Game or Category",
       "clipId": "Clip ID",
+      "clipIdHelper": "The clip ID appears in the URL of the Twitch clip. This field is optional.",
       "secondary": "Secondary filters",
       "fetch": "Fetch clips",
       "fetching": "Fetching clips"

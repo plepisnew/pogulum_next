@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model DbTwitchUser {
+  id              String @id @default(uuid())
+  twitchId        String @unique
+  login           String @unique
+  displayName     String @unique
+  // admin, global_mod, staff, <empty>
+  type            String
+  // affiliate, partner, <empty>
+  broadcasterType String
+  description     String
+  profileImageUrl String
+  offlineImageUrl String
+  createdAt       String
+  popularity      Int    @default(0)
+
+  @@index([login])
+}
+
+model DbTwitchGame {
+  id         String @id @default(uuid())
+  twitchId   String @unique
+  name       String @unique
+  boxArtUrl  String
+  igdbId     String
+  popularity Int    @default(0)
+
+  @@index([name])
+}

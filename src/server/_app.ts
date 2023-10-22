@@ -1,4 +1,4 @@
-import { twitchRouter } from "./routers/twitchRouter";
+import { twitchRouter } from "./routers/twitch";
 import { router } from "./trpc";
 
 export const appRouter = router({

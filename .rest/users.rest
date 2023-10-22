@@ -1,7 +1,5 @@
-@baseUrl = https://api.twitch.tv/helix
-@usersPath = users
 
 ### Get Twitch user "ansishihi"
-GET {{baseUrl}}/{{usersPath}}?login=ansishihi
-Client-Id: {{$dotenv CLIENT_ID}}
-Authorization: Bearer {{$dotenv ACCESS_TOKEN}}
+GET {{API_ENDPOINT}}/{{USERS_PATH}}?login=ansishihi
+Client-Id: {{CLIENT_ID}}
+Authorization: Bearer {{ACCESS_TOKEN}}
