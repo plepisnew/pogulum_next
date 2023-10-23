@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-no-undef */
 
 import Image from "next/image";
-import { MouseEventHandler, ReactNode } from "react";
+import { KeyboardEventHandler, MouseEventHandler, ReactNode } from "react";
 import {
   AutocompleteItem,
   EntityAutocompleteProps,
@@ -31,8 +31,18 @@ export type GetAutocompleteItemRenderer = (renderable: {
 
 export const getAutocompleteItemRenderer: GetAutocompleteItemRenderer =
   ({ imageSrc, label }) =>
-  ({ value, setValue }) => {
-    const handleSelectItem: MouseEventHandler = (e) => setValue(label);
+  ({ value, setValue, handleClose }) => {
+    const handleSelectItem: MouseEventHandler = (e) => {
+      setValue(label);
+      handleClose();
+    };
+
+    const handleSelectItemKeyboard: KeyboardEventHandler = (e) => {
+      if (e.key === "Enter") {
+        setValue(label);
+        handleClose();
+      }
+    };
 
     const highlightOccurrence = (options: {
       searchable: string;
@@ -81,7 +91,9 @@ export const getAutocompleteItemRenderer: GetAutocompleteItemRenderer =
           "flex items-center gap-2 p-1",
           "bg-primary-foreground/5 hover:bg-primary-foreground/10 data-[selected=true]:bg-primary-foreground/20 rounded-md cursor-pointer"
         )}
+        tabIndex={0}
         onClick={handleSelectItem}
+        onKeyDown={handleSelectItemKeyboard}
         data-selected={value === label}
       >
         <Image

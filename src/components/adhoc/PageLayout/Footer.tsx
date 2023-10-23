@@ -3,6 +3,7 @@ import { footerNavItems as navItems } from "./constants";
 import { FaTwitch } from "react-icons/fa";
 import { useTranslations } from "next-intl";
 import { cn } from "@nextui-org/react";
+import { Button } from "@/components/ui/Button";
 
 export const Footer: React.FC = () => {
   const t = useTranslations();
@@ -35,19 +36,19 @@ export const Footer: React.FC = () => {
           </ul>
         </nav>
         <div className="flex-1" />
-        <div className="flex flex-col">
+        <Button variant="tonal">
           <a
             href="https://twitch.tv"
             target="_blank"
-            className={cn(
-              "flex items-center gap-2 px-2 py-1",
-              "border rounded-md transition-colors",
-              "hover:bg-primary-foreground/10 dark:hover:bg-_primary-foreground/5"
-            )}
+            className={
+              cn("flex items-center gap-2 px-2 py-1 text-lg")
+              // "border rounded-md transition-colors",
+              // "hover:bg-primary-foreground/10 dark:hover:bg-_primary-foreground/5"
+            }
           >
             Powered by Twitch <FaTwitch />
           </a>
-        </div>
+        </Button>
       </div>
     </footer>
   );

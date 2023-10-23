@@ -22,9 +22,8 @@ import { PageContainer } from "@/components/adhoc/PageLayout";
 const ScraperPage: React.FC = () => {
   const t = useTranslations();
 
-  // TODO create shifting about pivot on right-most section click
+  // TODO create shifting about pivot on right-most section click (when navigating to next page)
   // TODO create dragging
-  // TODO create autocomplete and dynamic searching for twitch users/games
 
   const { game, GameAutocomplete } = useGameHandler();
   const { user, UserAutocomplete } = useUserHandler();
@@ -78,12 +77,12 @@ const ScraperPage: React.FC = () => {
   });
 
   const ClipSection = (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 h-full">
       {TitleFilterInput}
       <div
         className={cn(
           "p-2 flex-1 grid grid-cols-3 gap-x-2 gap-y-2 grid-rows-3 items-start",
-          "border-2 dark:border border-primary-foreground dark:border-primary-boundary rounded-lg overflow-y-scroll scrollbar-hide"
+          "border-2 dark:border border-primary-foreground dark:border-primary-boundary rounded-lg overflow-y-visible scrollbar-hide"
         )}
       >
         {clipData?.clips.map((clip) => (
@@ -129,7 +128,7 @@ const ScraperPage: React.FC = () => {
             <h1 className="bg-primary-dark px-3 py-2 font-medium dark:border-b dark:border-b-primary-boundary rounded-t-md">
               {t(titleKey)}
             </h1>
-            <div className="bg-primary p-3 h-full rounded-b-md">{Content}</div>
+            <div className="bg-primary p-3 rounded-b-md">{Content}</div>
           </div>
         ))}
       </div>

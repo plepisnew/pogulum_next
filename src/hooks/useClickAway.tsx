@@ -19,7 +19,6 @@ export const useClickAway: UseClickAway = ({ refs, handler }) => {
           return;
         }
       }
-
       handler(e);
     };
 

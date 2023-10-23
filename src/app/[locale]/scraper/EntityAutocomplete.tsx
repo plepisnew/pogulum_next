@@ -6,6 +6,7 @@ import { cn } from "@nextui-org/react";
 import _ from "lodash";
 import React, { ChangeEventHandler, ReactNode, useRef, useState } from "react";
 import { filterItems } from "./shared";
+import { useClickAway } from "@/hooks/useClickAway";
 
 export type AutocompleteItem = {
   value: string;
@@ -14,6 +15,7 @@ export type AutocompleteItem = {
     | ((renderContext: {
         value: string;
         setValue: Setter<string>;
+        handleClose: () => void;
       }) => ReactNode);
 };
 
@@ -46,14 +48,18 @@ export const useAutocomplete: UseAutocomplete = ({
   isLoading,
   onChange,
 }) => {
-  const [inputFocused, setInputFocused] = useState(false);
   const [value, setValue] = useState("");
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => setOpen(false);
 
   const filteredItems = filterItems(items, value);
   const shownItems = _.sortBy(filteredItems, (item) => item.value);
 
   const inputContainerRef = useRef<HTMLDivElement>(null);
+  const autocompleteContainerRef = useRef<HTMLDivElement>(null);
   const timeoutIdRef = useRef<NodeJS.Timeout>();
+  useClickAway({ refs: [autocompleteContainerRef], handler: handleClose });
 
   const handleChangeValue: ChangeEventHandler<HTMLInputElement> = async (e) => {
     const newValue = e.currentTarget.value;
@@ -68,8 +74,7 @@ export const useAutocomplete: UseAutocomplete = ({
     <Input
       value={value}
       onChange={handleChangeValue}
-      onFocus={(e) => setInputFocused(true)}
-      onBlur={(e) => setInputFocused(false)}
+      onFocus={(e) => setOpen(true)}
       {...inputProps}
     />
   );
@@ -81,14 +86,17 @@ export const useAutocomplete: UseAutocomplete = ({
   const itemRenderer: ArrayMap<AutocompleteItem, ReactNode> = (item, index) => (
     <React.Fragment key={item.value}>
       {typeof item.Render === "function"
-        ? item.Render({ value, setValue })
+        ? item.Render({ value, setValue, handleClose })
         : item.Render}
     </React.Fragment>
   );
 
   // TODO make this accessible and fix quick-clicking weird behavior (input immediately loses focus_)
   const Autocomplete = (
-    <div className={cn("autocomplete-base", "relative", baseClassName)}>
+    <div
+      className={cn("autocomplete-base", "relative", baseClassName)}
+      ref={autocompleteContainerRef}
+    >
       <div
         ref={inputContainerRef}
         className={cn(
@@ -103,9 +111,18 @@ export const useAutocomplete: UseAutocomplete = ({
       <div
         style={{
           paddingTop: inputHalfHeight,
-          opacity: inputFocused ? 1 : 0,
-          top: inputFocused ? inputHalfHeight : 0,
+          opacity: open ? 1 : 0,
+          top: open ? inputHalfHeight : 0,
         }}
+        onBlur={(e) => {
+          const currentTarget = e.currentTarget;
+          requestAnimationFrame(() => {
+            if (!currentTarget.contains(document.activeElement)) {
+              handleClose();
+            }
+          });
+        }}
+        tabIndex={-1}
         className={cn(
           "absolute w-full -z-10",
           "flex flex-col p-2 gap-2",
@@ -113,7 +130,7 @@ export const useAutocomplete: UseAutocomplete = ({
           "border-1 border-primary-foreground",
           "dark:border dark:border-primary-boundary",
           "bg-primary-dark/80 text-primary-foreground backdrop-blur-md",
-          !inputFocused && "pointer-events-none",
+          !open && "pointer-events-none",
           shownItems.length === 0 && !isLoading && "hidden",
           popoverClassName
         )}
