@@ -248,7 +248,8 @@ export const useAutocomplete: UseAutocomplete = ({
       <PopoverContent
         className={cn(
           "justify-start p-2 gap-1",
-          "bg-primary-darker text-primary-foreground"
+          "bg-primary-darker text-primary-foreground",
+          "dark:border dark:border-primary-boundary"
         )}
       >
         <Input
