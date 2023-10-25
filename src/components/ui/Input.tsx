@@ -16,7 +16,7 @@ export type InputProps = {
       endContent?: ReactNode;
     }
 ) &
-  Omit<NextInputProps, "variant" | "classNames" | "endContent">;
+  Omit<NextInputProps, "variant" | "endContent">;
 
 // * `base`: Input wrapper, it handles alignment, placement, and general appearance.
 // * `label`: Label of the input, it is the one that is displayed above, inside or left of the input.
@@ -106,14 +106,47 @@ const propMapper: Record<
 };
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ variant = "primary", ...props }, ref) => {
-    const { classNames, variant: mappedVariant } = propMapper[variant];
+  ({ variant = "primary", classNames, ...props }, ref) => {
+    const { classNames: customClassNames, variant: mappedVariant } =
+      propMapper[variant];
 
     return (
       <NextInput
         ref={ref}
         variant={mappedVariant}
-        classNames={classNames}
+        classNames={{
+          base: cn(customClassNames?.base, classNames?.base),
+          clearButton: cn(
+            customClassNames?.clearButton,
+            classNames?.clearButton
+          ),
+          description: cn(
+            customClassNames?.description,
+            classNames?.description
+          ),
+          errorMessage: cn(
+            customClassNames?.errorMessage,
+            classNames?.errorMessage
+          ),
+          helperWrapper: cn(
+            customClassNames?.helperWrapper,
+            classNames?.helperWrapper
+          ),
+          innerWrapper: cn(
+            customClassNames?.innerWrapper,
+            classNames?.innerWrapper
+          ),
+          input: cn(customClassNames?.input, classNames?.input),
+          inputWrapper: cn(
+            customClassNames?.inputWrapper,
+            classNames?.inputWrapper
+          ),
+          label: cn(customClassNames?.label, classNames?.label),
+          mainWrapper: cn(
+            customClassNames?.mainWrapper,
+            classNames?.mainWrapper
+          ),
+        }}
         {...props}
       />
     );

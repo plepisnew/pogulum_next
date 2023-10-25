@@ -1,65 +1,96 @@
+/* eslint-disable react/display-name */
+/* eslint-disable react/jsx-no-undef */
 "use client";
 
 import { Input, InputProps } from "@/components/ui/Input";
-import { ArrayMap, Setter } from "@/utils/types";
-import { cn } from "@nextui-org/react";
+import { ArrayMap } from "@/utils/types";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  ScrollShadow,
+  cn,
+} from "@nextui-org/react";
 import _ from "lodash";
-import React, { ChangeEventHandler, ReactNode, useRef, useState } from "react";
-import { filterItems } from "./shared";
-import { useClickAway } from "@/hooks/useClickAway";
+import React, {
+  ChangeEventHandler,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { Button } from "@/components/ui/Button";
+import { HiChevronUpDown } from "react-icons/hi2";
+import { concreteDimensions } from "@/utils/twitch";
+import Image from "next/image";
+import { Skeleton } from "@/components/ui/Skeleton";
+import { TransKey } from "@/i18n/utils";
+import { useTranslations } from "next-intl";
+
+const AutocompleteDefaults = {
+  DEBOUNCE_MILLIS: 1000,
+  ICON_SIZE: 32,
+  ICON_SIZE_INPUT: 26,
+};
 
 export type AutocompleteItem = {
   value: string;
-  Render:
-    | ReactNode
-    | ((renderContext: {
-        value: string;
-        setValue: Setter<string>;
-        handleClose: () => void;
-      }) => ReactNode);
+  display: string;
+  iconSrc: string;
 };
 
-export type EntityAutocompleteProps = {
+export type UseAutocomplete = (options: {
+  inputProps: InputProps;
+  triggerPlaceholder: TransKey;
   items: AutocompleteItem[];
-  Loader: ReactNode;
   isLoading: boolean;
-  onChange: (value: string) => void;
-  debounceMillis: number;
-  baseClassName?: string;
-  inputContainerClassName?: string;
-  popoverClassName?: string;
-};
-
-export type UseAutocomplete = (
-  options: { inputProps: InputProps } & EntityAutocompleteProps
-) => {
+  onChange: (changeContext: { value: string; count: number }) => void;
+}) => {
   value: string;
   Autocomplete: JSX.Element;
 };
 
 export const useAutocomplete: UseAutocomplete = ({
   inputProps,
+  triggerPlaceholder,
   items,
-  baseClassName,
-  inputContainerClassName,
-  popoverClassName,
-  Loader,
-  debounceMillis,
   isLoading,
   onChange,
 }) => {
+  const filterItems = <TItem extends { value: AutocompleteItem["value"] }>(
+    items: TItem[],
+    value: string
+  ) => {
+    return (
+      items.filter((item) =>
+        item.value.toLocaleLowerCase().includes(value.toLocaleLowerCase())
+      ) || _.isEmpty(value)
+    );
+  };
+
   const [value, setValue] = useState("");
   const [open, setOpen] = useState(false);
-
-  const handleClose = () => setOpen(false);
 
   const filteredItems = filterItems(items, value);
   const shownItems = _.sortBy(filteredItems, (item) => item.value);
 
-  const inputContainerRef = useRef<HTMLDivElement>(null);
-  const autocompleteContainerRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
   const timeoutIdRef = useRef<NodeJS.Timeout>();
-  useClickAway({ refs: [autocompleteContainerRef], handler: handleClose });
+
+  const t = useTranslations();
+
+  const [itemsWidth, setItemsWidth] = useState<number>();
+
+  useEffect(() => {
+    const resizeListener = () =>
+      setItemsWidth(buttonRef.current!.clientWidth - 20);
+
+    resizeListener();
+
+    window.addEventListener("resize", resizeListener);
+
+    return () => window.removeEventListener("resize", resizeListener);
+  }, []);
 
   const handleChangeValue: ChangeEventHandler<HTMLInputElement> = async (e) => {
     const newValue = e.currentTarget.value;
@@ -67,79 +98,178 @@ export const useAutocomplete: UseAutocomplete = ({
 
     clearTimeout(timeoutIdRef.current);
 
-    timeoutIdRef.current = setTimeout(() => onChange(newValue), debounceMillis);
+    timeoutIdRef.current = setTimeout(
+      () =>
+        onChange({
+          value: newValue,
+          count: filterItems(items, newValue).length,
+        }),
+      AutocompleteDefaults.DEBOUNCE_MILLIS
+    );
   };
 
-  const InputElement = (
-    <Input
-      value={value}
-      onChange={handleChangeValue}
-      onFocus={(e) => setOpen(true)}
-      {...inputProps}
-    />
-  );
+  const handleClose = () => setOpen(false);
 
-  const inputHalfHeight = `calc(${
-    inputContainerRef.current?.clientHeight || 0
-  }px / 2)`;
+  const handleSelectItem = (_value: string) => {
+    setValue(_value);
+    setOpen(false);
+  };
 
-  const itemRenderer: ArrayMap<AutocompleteItem, ReactNode> = (item, index) => (
-    <React.Fragment key={item.value}>
-      {typeof item.Render === "function"
-        ? item.Render({ value, setValue, handleClose })
-        : item.Render}
-    </React.Fragment>
-  );
+  const itemRenderer: ArrayMap<AutocompleteItem, ReactNode> = ({
+    display,
+    iconSrc,
+    value: game,
+  }) => {
+    const highlightOccurrence = (options: {
+      searchable: string;
+      filter: string;
+    }): ReactNode[] => {
+      const { searchable, filter } = options;
 
-  // TODO make this accessible and fix quick-clicking weird behavior (input immediately loses focus_)
-  const Autocomplete = (
+      const nodes: ReactNode[] = [];
+      let undesirableWord = "";
+      let desirableWord = "";
+
+      for (let i = 0; i < searchable.length; i++) {
+        const char = searchable.at(i)!;
+
+        if (
+          char.toLowerCase() ===
+          filter.charAt(desirableWord.length).toLowerCase()
+        ) {
+          desirableWord += char;
+
+          if (desirableWord.toLowerCase() === filter.toLowerCase()) {
+            nodes.push(undesirableWord);
+            nodes.push(
+              <span className="font-bold" key={i}>
+                {desirableWord}
+              </span>
+            );
+            undesirableWord = "";
+            desirableWord = "";
+          }
+        } else {
+          undesirableWord += desirableWord + char;
+          desirableWord = "";
+        }
+      }
+      nodes.push(undesirableWord);
+      nodes.push(desirableWord);
+
+      return nodes;
+    };
+
+    return (
+      <div
+        tabIndex={0}
+        key={game}
+        onClick={() => handleSelectItem(game)}
+        onKeyDown={(e) => e.key === "Enter" && handleSelectItem(game)}
+        className={cn(
+          "flex items-center gap-2 p-1 w-full",
+          "bg-primary-foreground/5 hover:bg-primary-foreground/10 data-[selected=true]:bg-primary-foreground/20 rounded-md cursor-pointer"
+        )}
+      >
+        <Image
+          width={AutocompleteDefaults.ICON_SIZE}
+          height={AutocompleteDefaults.ICON_SIZE}
+          alt={display}
+          src={concreteDimensions({
+            url: iconSrc,
+            width: AutocompleteDefaults.ICON_SIZE,
+            height: AutocompleteDefaults.ICON_SIZE,
+          })}
+          className="rounded-md bg-primary-foreground/30"
+        />
+        {/* <Skeleton>
+      </Skeleton> */}
+        <span className="whitespace-nowrap overflow-x-scroll scrollbar-hide">
+          {highlightOccurrence({ searchable: display, filter: value })}
+        </span>
+      </div>
+    );
+  };
+
+  const Loader = (
     <div
-      className={cn("autocomplete-base", "relative", baseClassName)}
-      ref={autocompleteContainerRef}
+      className={cn(
+        "flex items-center gap-2 p-1",
+        "bg-primary-foreground/5 rounded-md"
+      )}
     >
-      <div
-        ref={inputContainerRef}
-        className={cn(
-          "input-container",
-          "w-full",
-          "bg-primary-dark rounded-xl",
-          inputContainerClassName
-        )}
-      >
-        {InputElement}
-      </div>
-      <div
-        style={{
-          paddingTop: inputHalfHeight,
-          opacity: open ? 1 : 0,
-          top: open ? inputHalfHeight : 0,
-        }}
-        onBlur={(e) => {
-          const currentTarget = e.currentTarget;
-          requestAnimationFrame(() => {
-            if (!currentTarget.contains(document.activeElement)) {
-              handleClose();
-            }
-          });
-        }}
-        tabIndex={-1}
-        className={cn(
-          "absolute w-full -z-10",
-          "flex flex-col p-2 gap-2",
-          "rounded-xl transition-all overflow-y-scroll scrollbar-hide max-h-80",
-          "border-1 border-primary-foreground",
-          "dark:border dark:border-primary-boundary",
-          "bg-primary-dark/80 text-primary-foreground backdrop-blur-md",
-          !open && "pointer-events-none",
-          shownItems.length === 0 && !isLoading && "hidden",
-          popoverClassName
-        )}
-      >
-        <div className="h-0" key={0} />
-        {shownItems.map(itemRenderer)}
-        {isLoading && Loader}
-      </div>
+      <Skeleton
+        width={AutocompleteDefaults.ICON_SIZE}
+        height={AutocompleteDefaults.ICON_SIZE}
+      />
+      <Skeleton className="w-1/2 h-4" />
     </div>
+  );
+
+  const selectedItem = items.find((item) => item.value === value);
+
+  // prettier-ignore
+  const TriggerDisplay = selectedItem ? 
+    <React.Fragment>
+      <Image
+        alt={value}
+        className="rounded-full"
+        src={concreteDimensions({
+          url: selectedItem.iconSrc,
+          width: AutocompleteDefaults.ICON_SIZE_INPUT,
+          height: AutocompleteDefaults.ICON_SIZE_INPUT,
+        })}
+        width={AutocompleteDefaults.ICON_SIZE_INPUT}
+        height={AutocompleteDefaults.ICON_SIZE_INPUT}
+      />
+      {selectedItem.display}
+    </React.Fragment>
+  : value ? value
+  : t(triggerPlaceholder);
+
+  const Autocomplete = (
+    <Popover
+      placement="bottom"
+      isOpen={open}
+      onOpenChange={setOpen}
+      onClose={handleClose}
+      triggerScaleOnOpen={false}
+    >
+      <PopoverTrigger>
+        <Button
+          role="combobox"
+          variant="tonal-inverse"
+          className="px-3 justify-start"
+          ref={buttonRef}
+        >
+          {TriggerDisplay} <HiChevronUpDown className="ml-auto" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent
+        className={cn(
+          "justify-start p-2 gap-1",
+          "bg-primary-darker text-primary-foreground"
+        )}
+      >
+        <Input
+          value={value}
+          onChange={handleChangeValue}
+          variant="secondary-inverse"
+          className="rounded-md"
+          classNames={{ inputWrapper: "rounded-md" }}
+          {...inputProps}
+        />
+        <ScrollShadow
+          className="max-h-[300px] w-full flex flex-col gap-1"
+          hideScrollBar
+          size={10}
+          style={{ width: itemsWidth }}
+        >
+          {shownItems.map(itemRenderer)}
+          {isLoading && Loader}
+        </ScrollShadow>
+      </PopoverContent>
+    </Popover>
   );
 
   return { value, Autocomplete };

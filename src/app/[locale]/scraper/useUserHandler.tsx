@@ -1,21 +1,10 @@
 import { trpc } from "@/utils/trpc";
-import { cn } from "@nextui-org/react";
-import { Skeleton } from "@/components/ui/Skeleton";
 import { DbTwitchUser } from "@prisma/client";
 import _ from "lodash";
-import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { FaUser } from "react-icons/fa";
 import { useAutocomplete } from "./EntityAutocomplete";
-import {
-  getAutocompleteItemRenderer,
-  autocompleteIconSize,
-  filterItems,
-} from "./shared";
 
 export const useUserHandler = () => {
-  const t = useTranslations();
-
   const { data: topUsers } = trpc.twitch.users.getTop.useQuery(50, {
     initialData: [],
     cacheTime: 0,
@@ -45,36 +34,14 @@ export const useUserHandler = () => {
     });
 
   const { value: user, Autocomplete: UserAutocomplete } = useAutocomplete({
-    inputProps: {
-      label: t("Scraper.querySection.user"),
-      placeholder: "Anomaly",
-      variant: "secondary-inverse",
-      startContent: <FaUser />,
-    },
+    triggerPlaceholder: "Scraper.querySection.userPlaceholder",
     items: allUsers.map((user) => ({
+      display: user.displayName,
       value: user.login,
-      Render: getAutocompleteItemRenderer({
-        label: user.displayName,
-        imageSrc: user.profileImageUrl,
-      }),
+      iconSrc: user.profileImageUrl,
     })),
-    Loader: (
-      <div
-        className={cn(
-          "flex items-center gap-2 p-1",
-          "bg-primary-foreground/5 rounded-md"
-        )}
-      >
-        <Skeleton width={autocompleteIconSize} height={autocompleteIconSize} />
-        <Skeleton className="w-1/2 h-4" />
-      </div>
-    ),
-    onChange: async (value) => {
-      const count = filterItems(
-        allUsers.map((user) => ({ value: user.login })),
-        value
-      ).length;
-
+    inputProps: { placeholder: "Anomaly", variant: "secondary-inverse" },
+    onChange: async ({ count, value }) => {
       if (count === 0) {
         return await fetchNewUser({ login: value });
       }
@@ -83,8 +50,6 @@ export const useUserHandler = () => {
       }
     },
     isLoading: isLoadingNewUser,
-    debounceMillis: 1000,
-    baseClassName: "z-30",
   });
 
   return { user, UserAutocomplete };

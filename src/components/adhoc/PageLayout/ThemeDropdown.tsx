@@ -14,7 +14,7 @@ export const ThemeDropdown: React.FC = () => {
     <Dropdown
       value={theme}
       items={themes.map((theme) => ({
-        render: _.upperFirst(theme),
+        Render: _.upperFirst(theme),
         value: theme,
         props: { onClick: () => setTheme(theme) },
       }))}

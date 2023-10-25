@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { useInput } from "@/hooks/useInput";
 import { TransKey } from "@/i18n/utils";
 import { trpc } from "@/utils/trpc";
-import { cn } from "@nextui-org/react";
+import { Popover, PopoverContent, PopoverTrigger, cn } from "@nextui-org/react";
 import { useTranslations } from "next-intl";
 import { ReactNode } from "react";
 import { FaCamera, FaSearch } from "react-icons/fa";
@@ -51,11 +51,10 @@ const ScraperPage: React.FC = () => {
         <h2>{t("Scraper.querySection.primary")}</h2>
         {UserAutocomplete}
         {GameAutocomplete}
-        {ClipIdInput}
       </div>
       <div className="flex flex-col gap-2">
         <h2>{t("Scraper.querySection.secondary")}</h2>
-        <div>secondary</div>
+        {ClipIdInput}
       </div>
       <Button
         isLoading={isFetchingClips}
@@ -93,7 +92,17 @@ const ScraperPage: React.FC = () => {
     </div>
   );
 
-  const BagSection = <div>Bag</div>;
+  const BagSection = (
+    <div>
+      <Popover triggerScaleOnOpen={false}>
+        <PopoverTrigger>
+          {/* <Button>Click me</Button> */}
+          <button>Click me</button>
+        </PopoverTrigger>
+        <PopoverContent>Some content</PopoverContent>
+      </Popover>
+    </div>
+  );
 
   const Sections: { titleKey: TransKey; Content: ReactNode; span: number }[] = [
     {
@@ -121,14 +130,17 @@ const ScraperPage: React.FC = () => {
             key={titleKey}
             className={cn(
               "text-primary-foreground rounded-md dark:border dark:border-primary-boundary",
+              "shadow-md shadow-primary/60 dark:shadow-none",
               "flex flex-col"
             )}
             style={{ flex: span }}
           >
-            <h1 className="bg-primary-dark px-3 py-2 font-medium dark:border-b dark:border-b-primary-boundary rounded-t-md">
+            <h1 className="bg-primary-darker px-3 py-2 font-medium dark:border-b dark:border-b-primary-boundary rounded-t-md">
               {t(titleKey)}
             </h1>
-            <div className="bg-primary p-3 rounded-b-md">{Content}</div>
+            <div className="bg-primary-dark p-3 rounded-b-md flex-1">
+              {Content}
+            </div>
           </div>
         ))}
       </div>

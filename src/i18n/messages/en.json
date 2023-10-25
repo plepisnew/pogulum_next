@@ -12,8 +12,8 @@
     "querySection": {
       "title": "1. Select filters",
       "primary": "Primary filters",
-      "user": "Twitch User",
-      "game": "Twitch Game or Category",
+      "userPlaceholder": "Select Twitch user",
+      "gamePlaceholder": "Select Twitch game",
       "clipId": "Clip ID",
       "clipIdHelper": "The clip ID appears in the URL of the Twitch clip. This field is optional.",
       "secondary": "Secondary filters",

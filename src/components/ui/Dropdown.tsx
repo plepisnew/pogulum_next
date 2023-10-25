@@ -1,21 +1,23 @@
-import React, { PropsWithChildren, ReactNode } from "react";
+import React, { CSSProperties, PropsWithChildren, ReactNode } from "react";
 import {
   Dropdown as NextUIDropdown,
-  DropdownMenu as NextUIDropdownMenu,
-  DropdownTrigger as NextUIDropdownTrigger,
+  DropdownProps as NextUIDropdownProps,
   DropdownItem as NextUIDropdownItem,
   DropdownItemProps as NextUIDropdownItemProps,
-  DropdownProps as NextUIDropdownProps,
+  DropdownTrigger as NextUIDropdownTrigger,
+  DropdownMenu as NextUIDropdownMenu,
+  DropdownMenuProps as NextUIDropdownMenuProps,
   cn,
 } from "@nextui-org/react";
 
 export type DropdownProps = {
   items: {
     value: string;
-    render: ReactNode;
+    Render: ReactNode;
     props?: Partial<NextUIDropdownItemProps>;
   }[];
   value?: string;
+  width?: CSSProperties["width"];
 } & Omit<NextUIDropdownProps, "children"> &
   PropsWithChildren;
 
@@ -23,16 +25,17 @@ export const Dropdown: React.FC<DropdownProps> = ({
   items,
   children,
   value,
+  width,
   classNames,
   ...props
 }) => {
   return (
     <NextUIDropdown
       classNames={{
-        base: "bg-primary-dark text-primary-foreground border border-primary-foreground dark:border-primary-boundary",
-        // backdrop: "bg-red-500",
+        base: "bg-primary-darker text-primary-foreground dark:border dark:border-primary-boundary",
         ...classNames,
       }}
+      triggerScaleOnOpen={false}
       {...props}
     >
       <NextUIDropdownTrigger>{children}</NextUIDropdownTrigger>
@@ -53,7 +56,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
               item.props?.className
             )}
           >
-            {item.render}
+            {item.Render}
           </NextUIDropdownItem>
         ))}
       </NextUIDropdownMenu>
@@ -65,4 +68,8 @@ export {
   NextUIDropdownMenu as DropdownMenu,
   NextUIDropdownTrigger as DropdownTrigger,
   NextUIDropdownItem as DropdownItem,
+};
+export type {
+  NextUIDropdownItemProps as DropdownItemProps,
+  NextUIDropdownMenuProps as DropdownMenuProps,
 };

@@ -33,6 +33,7 @@ module.exports = {
             primary: {
               DEFAULT: colors.indigo[700],
               dark: colors.indigo[800],
+              darker: colors.indigo[900],
               foreground: colors.white,
             },
             cta: {
@@ -52,16 +53,17 @@ module.exports = {
               foreground: colors.white,
             },
             primary: {
-              DEFAULT: colors.zinc[950],
-              dark: colors.black,
+              DEFAULT: colors.zinc[900],
+              dark: colors.zinc[950],
+              darker: colors.black,
               foreground: colors.white,
               boundary: colors.zinc[700],
               "boundary-light": colors.zinc[600],
             },
             cta: {
-              light: colors.zinc[100],
-              DEFAULT: colors.zinc[200],
-              dark: colors.zinc[300],
+              light: colors.zinc[200],
+              DEFAULT: colors.zinc[300],
+              dark: colors.zinc[400],
               foreground: colors.black,
               "foreground-dark": colors.black,
             },

@@ -1,22 +1,10 @@
 import { trpc } from "@/utils/trpc";
-import { cn } from "@nextui-org/react";
 import { DbTwitchGame } from "@prisma/client";
 import _ from "lodash";
 import { useState } from "react";
-import { FaGamepad } from "react-icons/fa";
 import { useAutocomplete } from "./EntityAutocomplete";
-import {
-  getAutocompleteItemRenderer,
-  autocompleteIconSize,
-  filterItems,
-} from "./shared";
-import { Skeleton } from "@/components/ui/Skeleton";
-import { useTranslations } from "next-intl";
-import Image from "next/image";
 
 export const useGameHandler = () => {
-  const t = useTranslations();
-
   const { data: topGames } = trpc.twitch.games.getTop.useQuery(50, {
     initialData: [],
     cacheTime: 0,
@@ -45,36 +33,17 @@ export const useGameHandler = () => {
     });
 
   const { value: game, Autocomplete: GameAutocomplete } = useAutocomplete({
-    inputProps: {
-      label: t("Scraper.querySection.game"),
-      placeholder: "Counter-Strike: Global Offensive",
-      variant: "secondary-inverse",
-      startContent: <FaGamepad />,
-    },
+    triggerPlaceholder: "Scraper.querySection.gamePlaceholder",
     items: allGames.map((game) => ({
       value: game.name,
-      Render: getAutocompleteItemRenderer({
-        label: game.name,
-        imageSrc: game.boxArtUrl,
-      }),
+      display: game.name,
+      iconSrc: game.boxArtUrl,
     })),
-    Loader: (
-      <div
-        className={cn(
-          "flex items-center gap-2 p-1",
-          "bg-primary-foreground/5 rounded-md"
-        )}
-      >
-        <Skeleton width={autocompleteIconSize} height={autocompleteIconSize} />
-        <Skeleton className="w-1/2 h-4" />
-      </div>
-    ),
-    onChange: async (value) => {
-      const count = filterItems(
-        allGames.map((game) => ({ value: game.name })),
-        value
-      ).length;
-
+    inputProps: {
+      placeholder: "Counter-Strike: Global Offensive",
+      variant: "secondary-inverse",
+    },
+    onChange: async ({ value, count }) => {
       if (count === 0) {
         return await fetchNewGame({ name: value });
       }
@@ -83,8 +52,6 @@ export const useGameHandler = () => {
       }
     },
     isLoading: isLoadingNewGame,
-    debounceMillis: 1000,
-    baseClassName: "z-20",
   });
 
   return { game, GameAutocomplete };

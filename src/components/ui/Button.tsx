@@ -57,7 +57,7 @@ const variantMapper: Record<
   "tonal-inverse": {
     variant: "flat",
     className:
-      "bg-cta-foreground/10 hover:bg-cta-foreground/20 text-cta-foreground dark:bg-cta/10 dark:hover:bg-cta/20 dark:text-cta-dark",
+      "bg-cta-foreground/15 hover:bg-cta-foreground/20 text-cta-foreground dark:bg-cta/10 dark:hover:bg-cta/20 dark:text-cta-dark",
   },
   "quiet-inverse": {
     variant: "flat",

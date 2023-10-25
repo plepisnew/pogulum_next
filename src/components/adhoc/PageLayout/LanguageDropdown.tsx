@@ -16,7 +16,7 @@ export const LanguageDropdown: React.FC = () => {
     <Dropdown
       value={locale}
       items={languages.map((language) => ({
-        render: (
+        Render: (
           <Link
             href={pathname}
             locale={language.locale}
